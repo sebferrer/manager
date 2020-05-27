@@ -3,7 +3,11 @@ import get from 'lodash/get';
 import isNaN from 'lodash/isNaN';
 import last from 'lodash/last';
 import set from 'lodash/set';
-import startsWith from 'lodash/startsWith';
+// import startsWith from 'lodash/startsWith';
+import has from 'lodash/has';
+// import isNaN from 'lodash/isNaN';
+// import last from 'lodash/last';
+// import set from 'lodash/set';
 import values from 'lodash/values';
 import _ from 'lodash';
 
@@ -38,17 +42,17 @@ angular
       const getOrderableVersion = function getOrderableVersion() {
         $scope.loaders.orderableVersion = true;
 
-        LicenseOrder.LicenseAgoraOrder.getAddon({
-          productType: 'vps',
-          serviceName: get($scope, 'selected.ipBlock.serviceName'),
-        })
+        LicenseOrder.LicenseAgoraOrder.getVpsAddonLicenses(
+          get($scope, 'selected.ipBlock'),
+        )
           .then((data) => {
             $scope.types = _.chain(data)
               .filter((license) => {
                 const type = license.family.toUpperCase();
-                return Object.keys(
+                return has(
                   LicenseOrder.LicenseAgoraOrder.licenseTypeToCatalog,
-                ).find((l) => startsWith(type, l));
+                  type,
+                );
               })
               .groupBy((license) =>
                 license.planCode.split('-')[1].toUpperCase(),
@@ -108,6 +112,10 @@ angular
           details: {},
         };
       }
+
+      $scope.hasMoreOptions = function hasMoreOptions() {
+        return $scope.selected.options[$scope.selected.licenseType] !== null;
+      };
 
       $scope.isSelectionValid = function isSelectionValid() {
         let valid =

@@ -9,7 +9,11 @@ const constants = {
     UNIVERS: 'dedicated',
     URLS: {
       CZ: {
+<<<<<<< HEAD
         express_order: 'https://www.ovh.cz/order/express/#/express/',
+=======
+        express_order: 'https://www.ovh.cz/order/express/#/new/express',
+>>>>>>> feat(license): use agora for baremetal and vps
         express_order_resume:
           'https://www.ovh.cz/order/express/#/new/express/resume',
         support: 'http://www.ovh.cz/podpora/',
@@ -42,7 +46,11 @@ const constants = {
         iplbOrder: 'https://www.ovh.cz/reseni/load-balancer/',
       },
       DE: {
+<<<<<<< HEAD
         express_order: 'https://www.ovh.de/order/express/#/express/',
+=======
+        express_order: 'https://www.ovh.de/order/express/#/new/express',
+>>>>>>> feat(license): use agora for baremetal and vps
         express_order_resume:
           'https://www.ovh.de/order/express/#/new/express/resume',
         support: 'http://www.ovh.de/support/',
@@ -82,7 +90,11 @@ const constants = {
         iplbOrder: 'https://www.ovh.de/loesungen/load-balancer/',
       },
       ES: {
+<<<<<<< HEAD
         express_order: 'https://www.ovh.es/order/express/#/express/',
+=======
+        express_order: 'https://www.ovh.es/order/express/#/new/express',
+>>>>>>> feat(license): use agora for baremetal and vps
         express_order_resume:
           'https://www.ovh.es/order/express/#/new/express/resume',
         support: 'http://www.ovh.es/soporte/',
@@ -120,7 +132,11 @@ const constants = {
         iplbOrder: 'https://www.ovh.es/soluciones/load-balancer/',
       },
       FI: {
+<<<<<<< HEAD
         express_order: 'https://www.ovh-hosting.fi/order/express/#/express/',
+=======
+        express_order: 'https://www.ovh-hosting.fi/order/express/#/new/express',
+>>>>>>> feat(license): use agora for baremetal and vps
         express_order_resume:
           'https://www.ovh-hosting.fi/order/express/#/new/express/resume',
         support: 'http://www.ovh-hosting.fi/tuki/',
@@ -160,7 +176,11 @@ const constants = {
         iplbOrder: 'https://www.ovh-hosting.fi/ratkaisut/load-balancer/',
       },
       FR: {
+<<<<<<< HEAD
         express_order: 'https://www.ovh.com/fr/order/express/#/express/',
+=======
+        express_order: 'https://www.ovh.com/fr/order/express/#/new/express',
+>>>>>>> feat(license): use agora for baremetal and vps
         express_order_resume:
           'https://www.ovh.com/fr/order/express/#/new/express/resume',
         support: 'https://www.ovh.com/fr/support/',
@@ -221,7 +241,11 @@ const constants = {
         iplbOrder: 'https://www.ovh.com/fr/solutions/load-balancer/',
       },
       GB: {
+<<<<<<< HEAD
         express_order: 'https://www.ovh.co.uk/order/express/#/express/',
+=======
+        express_order: 'https://www.ovh.co.uk/order/express/#/new/express',
+>>>>>>> feat(license): use agora for baremetal and vps
         express_order_resume:
           'https://www.ovh.co.uk/order/express/#/new/express/resume',
         support: 'http://www.ovh.co.uk/support/',
@@ -272,7 +296,11 @@ const constants = {
         iplbOrder: 'https://www.ovh.co.uk/solutions/load-balancer/',
       },
       IT: {
+<<<<<<< HEAD
         express_order: 'https://www.ovh.it/order/express/#/express/',
+=======
+        express_order: 'https://www.ovh.it/order/express/#/new/express',
+>>>>>>> feat(license): use agora for baremetal and vps
         express_order_resume:
           'https://www.ovh.it/order/express/#/new/express/resume',
         support: 'http://www.ovh.it/supporto/',
@@ -315,7 +343,11 @@ const constants = {
         iplbOrder: 'https://www.ovh.it/soluzioni/load-balancer/',
       },
       LT: {
+<<<<<<< HEAD
         express_order: 'https://www.ovh.lt/order/express/#/express/',
+=======
+        express_order: 'https://www.ovh.lt/order/express/#/new/express',
+>>>>>>> feat(license): use agora for baremetal and vps
         express_order_resume:
           'https://www.ovh.lt/order/express/#/new/express/resume',
         support: 'http://www.ovh.lt/pagalba/',
@@ -357,7 +389,11 @@ const constants = {
         iplbOrder: 'https://www.ovh.lt/sprendimai/load-balancer/',
       },
       NL: {
+<<<<<<< HEAD
         express_order: 'https://www.ovh.nl/order/express/#/express/',
+=======
+        express_order: 'https://www.ovh.nl/order/express/#/new/express',
+>>>>>>> feat(license): use agora for baremetal and vps
         express_order_resume:
           'https://www.ovh.nl/order/express/#/new/express/resume',
         support: 'http://www.ovh.nl/support/',
@@ -396,7 +432,11 @@ const constants = {
         iplbOrder: 'https://www.ovh.nl/oplossing/load-balancer/',
       },
       PL: {
+<<<<<<< HEAD
         express_order: 'https://www.ovh.pl/order/express/#/express/',
+=======
+        express_order: 'https://www.ovh.pl/order/express/#/new/express',
+>>>>>>> feat(license): use agora for baremetal and vps
         express_order_resume:
           'https://www.ovh.pl/order/express/#/new/express/resume',
         support: 'https://www.ovh.pl/pomoc/',
@@ -439,7 +479,11 @@ const constants = {
         iplbOrder: 'https://www.ovh.pl/rozwiazania/ip-load-balancing/',
       },
       PT: {
+<<<<<<< HEAD
         express_order: 'https://www.ovh.pt/order/express/#/express/',
+=======
+        express_order: 'https://www.ovh.pt/order/express/#/new/express',
+>>>>>>> feat(license): use agora for baremetal and vps
         express_order_resume:
           'https://www.ovh.pt/order/express/#/new/express/resume',
         support: 'https://www.ovh.pt/suporte/',
@@ -482,7 +526,11 @@ const constants = {
         iplbOrder: 'https://www.ovh.pt/solucoes/load-balancer/',
       },
       IE: {
+<<<<<<< HEAD
         express_order: 'https://www.ovh.ie/order/express/#/express/',
+=======
+        express_order: 'https://www.ovh.ie/order/express/#/new/express',
+>>>>>>> feat(license): use agora for baremetal and vps
         express_order_resume:
           'https://www.ovh.ie/order/express/#/new/express/resume',
         support: 'https://www.ovh.ie/suport/',
@@ -790,7 +838,11 @@ const constants = {
     UNIVERS: 'dedicated',
     URLS: {
       ASIA: {
+<<<<<<< HEAD
         express_order: 'https://ca.ovh.com/asia/order/express/#/express/',
+=======
+        express_order: 'https://ca.ovh.com/asia/order/express/#/new/express',
+>>>>>>> feat(license): use agora for baremetal and vps
         express_order_resume:
           'https://ca.ovh.com/asia/order/express/#/new/express/resume',
         support: 'http://www.ovh.co.uk/support/',
@@ -830,7 +882,11 @@ const constants = {
         iplbOrder: 'https://www.ovh.com/world/solutions/load-balancer/',
       },
       AU: {
+<<<<<<< HEAD
         express_order: 'https://ca.ovh.com/au/order/express/#/express/',
+=======
+        express_order: 'https://ca.ovh.com/au/order/express/#/new/express',
+>>>>>>> feat(license): use agora for baremetal and vps
         express_order_resume:
           'https://ca.ovh.com/au/order/express/#/new/express/resume',
         support: 'http://www.ovh.co.uk/support/',
@@ -872,7 +928,11 @@ const constants = {
       },
       CA: {
         // eq to en_CA
+<<<<<<< HEAD
         express_order: 'https://ca.ovh.com/en/order/express/#/express/',
+=======
+        express_order: 'https://ca.ovh.com/en/order/express/#/new/express',
+>>>>>>> feat(license): use agora for baremetal and vps
         express_order_resume:
           'https://ca.ovh.com/en/order/express/#/new/express/resume',
         support: 'http://www.ovh.co.uk/support/',
@@ -914,7 +974,11 @@ const constants = {
       },
       QC: {
         // eq to fr_CA
+<<<<<<< HEAD
         express_order: 'https://ca.ovh.com/fr/order/express/#/express/',
+=======
+        express_order: 'https://ca.ovh.com/fr/order/express/#/new/express',
+>>>>>>> feat(license): use agora for baremetal and vps
         express_order_resume:
           'https://ca.ovh.com/fr/order/express/#/new/express/resume',
         support: 'https://www.ovh.com/fr/support/',
@@ -955,7 +1019,11 @@ const constants = {
         iplbOrder: 'https://www.ovh.com/ca/fr/solutions/load-balancer/',
       },
       SG: {
+<<<<<<< HEAD
         express_order: 'https://ca.ovh.com/sg/order/express/#/express/',
+=======
+        express_order: 'https://ca.ovh.com/sg/order/express/#/new/express',
+>>>>>>> feat(license): use agora for baremetal and vps
         express_order_resume:
           'https://ca.ovh.com/sg/order/express/#/new/express/resume',
         support: 'http://www.ovh.co.uk/support/',
@@ -995,7 +1063,11 @@ const constants = {
         iplbOrder: 'https://www.ovh.com/world/solutions/load-balancer/',
       },
       WE: {
+<<<<<<< HEAD
         express_order: 'https://us.ovh.com/us/order/express/#/express/',
+=======
+        express_order: 'https://us.ovh.com/us/order/express/#/new/express',
+>>>>>>> feat(license): use agora for baremetal and vps
         express_order_resume:
           'https://us.ovh.com/us/order/express/#/new/express/resume',
         support: 'http://www.ovh.co.uk/support/',
@@ -1036,7 +1108,11 @@ const constants = {
       },
       WS: {
         // eq to es_US
+<<<<<<< HEAD
         express_order: 'https://us.ovh.com/es/order/express/#/express/',
+=======
+        express_order: 'https://us.ovh.com/es/order/express/#/new/express',
+>>>>>>> feat(license): use agora for baremetal and vps
         express_order_resume:
           'https://us.ovh.com/es/order/express/#/new/express/resume',
         support: 'https://www.ovh.com/fr/support/',
@@ -1185,7 +1261,11 @@ const constants = {
     UNIVERS: 'dedicated',
     URLS: {
       US: {
+<<<<<<< HEAD
         express_order: 'https://us.ovhcloud.com/order/express/#/express/',
+=======
+        express_order: 'https://us.ovhcloud.com/order/express/#/express',
+>>>>>>> feat(license): use agora for baremetal and vps
         express_order_resume:
           'https://us.ovhcloud.com/order/express/#/express/review',
         support: 'http://www.ovh.co.uk/support/',

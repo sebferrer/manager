@@ -41,10 +41,16 @@ angular
       const getOrderableVersion = function getOrderableVersion() {
         $scope.loaders.orderableVersion = true;
 
+<<<<<<< HEAD
         LicenseOrder.LicenseAgoraOrder.getAddon({
           productType: 'dedicated',
           serviceName: get($scope, 'selected.ipBlock.serviceName'),
         })
+=======
+        LicenseOrder.LicenseAgoraOrder.getDedicatedAddonLicenses(
+          get($scope, 'selected.ipBlock'),
+        )
+>>>>>>> feat(license): use agora for baremetal and vps
           .then((data) => {
             $scope.types = _.chain(data)
               .filter((license) => {

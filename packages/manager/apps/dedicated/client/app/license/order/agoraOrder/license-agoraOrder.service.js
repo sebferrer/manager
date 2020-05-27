@@ -26,6 +26,17 @@ class LicenseAgoraOrder {
       WINDOWS: 'licenseWindows',
       WORKLIGHT: 'licenseWorklight',
     };
+
+    /* this.licenseTypeToCatalog = {
+      CLOUDLINUX: 'licenseCloudLinux',
+      CPANEL: 'cpanel',
+      DIRECTADMIN: 'licenseDirectadmin',
+      PLESK: 'plesk',
+      SQLSERVER: 'licenseSqlServer',
+      VIRTUOZZO: 'licenseVirtuozzo',
+      WINDOWS: 'licenseWindows',
+      WORKLIGHT: 'licenseWorklight',
+    }; */
   }
 
   getLicenseOffers(licenseType) {
@@ -90,7 +101,88 @@ class LicenseAgoraOrder {
       },
     );
   }
+  getDedicatedAddons() {
+    return this.OvhHttp.get('/order/cartServiceOption/dedicated', {
+      rootPath: 'apiv6',
+    });
+  }
 
+  getDedicatedAddonLicenses({ serviceName }) {
+    return this.OvhHttp.get(
+      '/order/cartServiceOption/dedicated/{serviceName}',
+      {
+        rootPath: 'apiv6',
+        urlParams: {
+          serviceName,
+        },
+      },
+    );
+  }
+
+  addDedicatedAddonLicense({
+    serviceName,
+    cartId,
+    duration,
+    planCode,
+    pricingMode,
+    quantity,
+  }) {
+    return this.OvhHttp.post(
+      '/order/cartServiceOption/dedicated/{serviceName}',
+      {
+        rootPath: 'apiv6',
+        urlParams: {
+          serviceName,
+        },
+        data: {
+          cartId,
+          duration,
+          planCode,
+          pricingMode,
+          quantity,
+        },
+      },
+    );
+  }
+
+  getVpsAddons() {
+    return this.OvhHttp.get('/order/cartServiceOption/vps', {
+      rootPath: 'apiv6',
+    });
+  }
+
+  getVpsAddonLicenses({ serviceName }) {
+    return this.OvhHttp.get('/order/cartServiceOption/vps/{serviceName}', {
+      rootPath: 'apiv6',
+      urlParams: {
+        serviceName,
+      },
+    });
+  }
+
+  addVpsAddonLicense({
+    serviceName,
+    cartId,
+    duration,
+    planCode,
+    pricingMode,
+    quantity,
+  }) {
+    return this.OvhHttp.post('/order/cartServiceOption/vps/{serviceName}', {
+      rootPath: 'apiv6',
+      urlParams: {
+        serviceName,
+      },
+      data: {
+        cartId,
+        duration,
+        planCode,
+        pricingMode,
+        quantity,
+      },
+    });
+  
+  }
   getLicenseOfferPlan(licenseType, planCode, ip) {
     return this.getLicenseOffers(licenseType).then((plans) => {
       const plan = assign(
