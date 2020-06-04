@@ -63,6 +63,7 @@ angular
       ovhManagerMfaEnrollment,
       ovhManagerPci,
       uiRouter,
+      'ngOvhUndefinedService',
     ].filter((value) => value !== null),
   ) // Remove null because __NG_APP_INJECTIONS__ can be null
   .controller('PublicCloudController', controller)
