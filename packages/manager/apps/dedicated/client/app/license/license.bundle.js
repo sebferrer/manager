@@ -12,11 +12,8 @@ import './migrate/license-migrate.controller';
 import './order/agoraOrder/license-agoraOrder.service';
 import './order/license-order.constants';
 import './order/license-order.controller';
-<<<<<<< HEAD
 import './order/license-order-legacy.controller';
-=======
 import './order/license-order-classic.controller';
->>>>>>> feat(license): use agora for baremetal and vps
 import './order/license-order-dedicated.controller';
 import './order/license-order-vps.controller';
 import './order/license-order.routes';

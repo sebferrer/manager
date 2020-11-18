@@ -21,7 +21,6 @@ angular
       License,
       licenseFeatureAvailability,
       LicenseOrder,
-      User,
     ) => {
       $scope.nbLicence = {
         value: 0,
@@ -37,32 +36,24 @@ angular
         bc: false,
         agoraUrl: false,
       };
-
       const getOrderableVersion = function getOrderableVersion() {
         $scope.loaders.orderableVersion = true;
 
-<<<<<<< HEAD
-        LicenseOrder.LicenseAgoraOrder.getAddon({
-          productType: 'dedicated',
-          serviceName: get($scope, 'selected.ipBlock.serviceName'),
-        })
-=======
         LicenseOrder.LicenseAgoraOrder.getDedicatedAddonLicenses(
           get($scope, 'selected.ipBlock'),
+          ``,
         )
->>>>>>> feat(license): use agora for baremetal and vps
           .then((data) => {
             $scope.types = _.chain(data)
               .filter((license) => {
                 const type = license.family.toUpperCase();
-                // return has(LicenseOrder.LicenseAgoraOrder.licenseTypeToCatalog, type);
                 return type.indexOf('LICENSE') !== -1;
               })
-              .groupBy((license) =>
-                license.planCode.split('-')[1].toUpperCase(),
-              )
+              .groupBy((license) => {
+                const typeName = license.planCode.split('-')[0].toUpperCase();
+                return typeName === 'SQL' ? 'SQLSERVER' : typeName;
+              })
               .value();
-
             $scope.nbLicence.value = values($scope.types).length || 0;
           })
           .catch(() => {
@@ -111,6 +102,7 @@ angular
       }
 
       function getResetedDurations() {
+        $scope.details = null;
         return {
           available: null,
           details: {},
@@ -148,6 +140,7 @@ angular
       };
 
       $scope.selectType = function selectType(type) {
+        $scope.details = null;
         if (
           type &&
           type !== $scope.selected.licenseType &&
@@ -172,20 +165,21 @@ angular
             if (translateKey !== translateValue) {
               set(licenseType, 'productName', translateValue);
             }
-            console.log(licenseType);
+            set(
+              licenseType,
+              'prices',
+              get(licenseType, 'prices').filter(
+                (price) => price.duration !== 'P0D',
+              ),
+            );
+
             return licenseType;
           });
-          $scope.selected.version = null;
           [$scope.selected.version] = type;
           $scope.selected.duration = null;
           $scope.selected.agoraUrl = '';
           $scope.loaders.bc = false;
           $scope.order = null;
-          $scope.selected.version.prices = get(
-            $scope.selected,
-            'version.prices',
-            [],
-          ).filter((price) => price.duration !== 'P0D');
         }
       };
 
@@ -267,31 +261,28 @@ angular
 
       $scope.getAgoraUrl = function getAgoraUrl() {
         $scope.loaders.agoraUrl = true;
-        const expressParams = {
+        const params = {
           productId: 'dedicated',
           serviceName: get($scope.selected, 'ipBlock.serviceName'),
-          planCode: get($scope.selected, 'licenseType[0].planCode'),
+          planCode: get($scope.selected, 'version.planCode'),
           duration: get($scope.selected, 'duration.duration'),
           pricingMode: get($scope.selected, 'duration.pricingMode'),
           quantity: 1,
         };
 
-        return User.getUrlOf('express_order_resume')
-          .then((url) => {
-            $scope.selected.agoraUrl = `${url}?products=${JSURL.stringify([
-              expressParams,
-            ])}`;
-          })
-          .catch((err) =>
-            Alerter.alertFromSWS(
-              $translate.instant('license_order_loading_error'),
-              err,
-              $scope.alerts.order,
-            ),
-          )
-          .finally(() => {
-            $scope.loaders.agoraUrl = false;
-          });
+        LicenseOrder.LicenseAgoraOrder.createDedicatedCart(params).then(
+          (result) => {
+            $scope.details = result;
+          },
+        );
+      };
+
+      $scope.openBc = function openBc() {
+        LicenseOrder.LicenseAgoraOrder.checkoutDedicated(
+          $scope.details.cartId,
+        ).then(({ url }) => {
+          window.open(url);
+        });
       };
 
       $scope.getBlockDisplay = function getBlockDisplay(ip) {

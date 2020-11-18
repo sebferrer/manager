@@ -25,6 +25,7 @@ class LicenseAgoraOrder {
       VIRTUOZZO: 'licenseVirtuozzo',
       WINDOWS: 'licenseWindows',
       WORKLIGHT: 'licenseWorklight',
+      REDHAT: 'licenseRedha t',
     };
 
     /* this.licenseTypeToCatalog = {
@@ -101,6 +102,7 @@ class LicenseAgoraOrder {
       },
     );
   }
+
   getDedicatedAddons() {
     return this.OvhHttp.get('/order/cartServiceOption/dedicated', {
       rootPath: 'apiv6',
@@ -145,6 +147,62 @@ class LicenseAgoraOrder {
     );
   }
 
+  createDedicatedCart(config) {
+    let cartId = '';
+
+    return this.User.getUser().then((user) =>
+      this.OvhHttp.post('/order/cart', {
+        rootPath: 'apiv6',
+        data: {
+          ovhSubsidiary: get(
+            user,
+            'ovhSubsidiary',
+            this.coreConfig.getRegion(),
+          ),
+        },
+      })
+        .then((data) => {
+          cartId = get(data, 'cartId');
+          return this.OvhHttp.post('/order/cart/{cartId}/assign', {
+            rootPath: 'apiv6',
+            urlParams: { cartId },
+          });
+        })
+        .then(() => this.pushDedicatedAgoraPlan({ cartId, config }))
+        .then(() =>
+          this.OvhHttp.get('/order/cart/{cartId}/checkout', {
+            rootPath: 'apiv6',
+            urlParams: { cartId },
+          }).then((result) => {
+            set(result, 'cartId', cartId);
+            return result;
+          }),
+        ),
+    );
+  }
+
+  pushDedicatedAgoraPlan(params) {
+    return this.OvhHttp.post(
+      `/order/cartServiceOption/baremetalServers/${params.config.serviceName}`,
+      {
+        rootPath: 'apiv6',
+        data: {
+          ...params.config,
+          cartId: params.cartId,
+        },
+      },
+    ).then((result) => {
+      return result;
+    });
+  }
+
+  checkoutDedicated(cartId) {
+    return this.OvhHttp.post(`/order/cart/${cartId}/checkout`, {
+      rootPath: 'apiv6',
+      urlParams: { cartId },
+    });
+  }
+
   getVpsAddons() {
     return this.OvhHttp.get('/order/cartServiceOption/vps', {
       rootPath: 'apiv6',
@@ -181,8 +239,8 @@ class LicenseAgoraOrder {
         quantity,
       },
     });
-  
   }
+
   getLicenseOfferPlan(licenseType, planCode, ip) {
     return this.getLicenseOffers(licenseType).then((plans) => {
       const plan = assign(
@@ -253,7 +311,6 @@ class LicenseAgoraOrder {
         .then(() =>
           this.OvhHttp.get('/order/cart/{cartId}/checkout', {
             rootPath: 'apiv6',
-            urlParams: { cartId },
           }),
         )
         .finally(() => this.$http.delete(`/order/cart/${cartId}`)),

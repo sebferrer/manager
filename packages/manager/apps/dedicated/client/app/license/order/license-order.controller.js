@@ -61,18 +61,6 @@ angular
 
         if ($scope.ipValid.value) {
           switch ($scope.selected.ipBlock.type) {
-<<<<<<< HEAD
-            case 'VPS':
-              LicenseOrder.LicenseAgoraOrder.getAddon({
-                serviceName: get($scope, 'selected.ipBlock.serviceName'),
-                productType: 'vps',
-              })
-                .then((data) => {
-                  $scope.orderType = data.length > 0 ? 'VPS' : 'LEGACY';
-                })
-                .catch(() => {
-                  $scope.orderType = 'LEGACY';
-=======
             case 'DEDICATED':
               LicenseOrder.LicenseAgoraOrder.getDedicatedAddonLicenses(
                 get($scope, 'selected.ipBlock'),
@@ -97,7 +85,6 @@ angular
                 })
                 .catch(() => {
                   $scope.orderType = 'CLASSIC';
->>>>>>> feat(license): use agora for baremetal and vps
                 })
                 .finally(() => {
                   $scope.loaders.orderableVersion = false;
@@ -105,11 +92,7 @@ angular
               break;
 
             default:
-<<<<<<< HEAD
-              $scope.orderType = 'LEGACY';
-=======
               $scope.orderType = 'CLASSIC';
->>>>>>> feat(license): use agora for baremetal and vps
           }
         } else {
           $scope.loaders.orderableVersion = false;
