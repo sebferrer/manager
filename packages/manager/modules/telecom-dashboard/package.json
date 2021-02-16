@@ -29,7 +29,7 @@
     "@uirouter/angularjs": "^1.0.15",
     "angular": "^1.7.5",
     "angular-translate": "^2.18.1",
-    "bootstrap4": "twbs/bootstrap#v4.0.0",
+    "bootstrap4": "*",
     "lodash": "^4.17.14",
     "ovh-api-services": "^11.0.0",
     "ovh-manager-webfont": "^1.2.0",

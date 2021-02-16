@@ -15,9 +15,7 @@
   "license": "BSD-3-Clause",
   "author": "OVH SAS",
   "main": "src/index.js",
-  "bin": {
-    "codename-generator": "bin/cli.js"
-  },
+  "bin": "bin/cli.js",
   "dependencies": {
     "commander": "^6.0.0",
     "moment": "^2.24.0",

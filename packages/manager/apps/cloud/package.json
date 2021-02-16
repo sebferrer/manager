@@ -18,7 +18,6 @@
     "start:dev": "lerna exec --stream --scope='@ovh-ux/manager-cloud' --include-dependencies -- npm run dev --if-present",
     "start:watch": "lerna exec --stream --parallel --scope='@ovh-ux/manager-cloud' --include-dependencies -- npm run dev:watch --if-present"
   },
-  "dependencies": {},
   "devDependencies": {
     "@ovh-ux/manager-webpack-config": "^3.1.1 || ^4.0.0",
     "glob": "^7.1.3",

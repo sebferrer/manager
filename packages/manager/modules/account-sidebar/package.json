@@ -44,7 +44,7 @@
     "@uirouter/angularjs": "^1.0.23",
     "angular": "^1.7.5",
     "angular-translate": "^2.18.1",
-    "bootstrap4": "twbs/bootstrap#v4.0.0",
+    "bootstrap4": "*",
     "ovh-api-services": "^11.0.0"
   }
 }

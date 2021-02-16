@@ -15,9 +15,7 @@
   "license": "BSD-3-Clause",
   "author": "OVH SAS",
   "main": "src/index.js",
-  "bin": {
-    "manager-dev-server": "bin/manager-dev-server.js"
-  },
+  "bin": "bin/manager-dev-server.js",
   "dependencies": {
     "@ovh-ux/manager-dev-server-config": "^2.0.0",
     "commander": "^6.0.0",

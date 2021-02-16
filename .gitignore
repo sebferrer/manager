@@ -8,3 +8,9 @@ dist-*
 /packages/manager/tools/testcafe/config/**/*.json
 /reports
 .eslintcache
+.yarn/*
+!.yarn/cache
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
