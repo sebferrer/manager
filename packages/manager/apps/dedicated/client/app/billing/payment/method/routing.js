@@ -1,4 +1,3 @@
-import filter from 'lodash/filter';
 import find from 'lodash/find';
 
 import component from './component';
@@ -9,11 +8,19 @@ export default /* @ngInject */ (
   $urlRouterProvider,
 ) => {
   const name = 'app.account.billing.payment.method';
+  const administrativeMandateFeatureName = 'billing:administrativeMandate';
 
   $stateProvider.state(name, {
     url: '/method',
     component: component.name,
     resolve: {
+      isAdministrativeMandateAvailable: /* @ngInject */ (ovhFeatureFlipping) =>
+        ovhFeatureFlipping
+          .checkFeatureAvailability(administrativeMandateFeatureName)
+          .then((feature) =>
+            feature.isFeatureAvailable(administrativeMandateFeatureName),
+          ),
+
       getActionHref: /* @ngInject */ ($state) => (action, params = {}) => {
         if (action !== 'add') {
           return $state.href(`${name}.action.${action}`, params);
@@ -24,6 +31,7 @@ export default /* @ngInject */ (
       guides: /* @ngInject */ (User) => User.getUrlOf('guides'),
 
       paymentMethods: /* @ngInject */ (
+        isAdministrativeMandateAvailable,
         OVH_PAYMENT_MEAN_STATUS,
         OVH_PAYMENT_METHOD_TYPE,
         ovhPaymentMethod,
@@ -33,10 +41,19 @@ export default /* @ngInject */ (
             transform: true,
           })
           .then((paymentMethods) =>
-            filter(paymentMethods, ({ paymentType, status }) => {
+            paymentMethods.filter(({ paymentType, status }) => {
               if (paymentType !== OVH_PAYMENT_METHOD_TYPE.BANK_ACCOUNT) {
                 return true;
               }
+
+              if (
+                paymentType ===
+                  OVH_PAYMENT_METHOD_TYPE.ADMINISTRATIVE_MANDATE &&
+                !isAdministrativeMandateAvailable
+              ) {
+                return false;
+              }
+
               return status !== OVH_PAYMENT_MEAN_STATUS.BLOCKED_FOR_INCIDENTS;
             }),
           ),

@@ -3,7 +3,11 @@
     data-ng-switch="$ctrl.integrationCtrl.paymentMethodType.paymentType"
 >
     <ovh-payment-method-integration-in-context-paypal
-        data-ng-switch-case="PAYPAL"
+        data-ng-switch-when="PAYPAL"
     >
     </ovh-payment-method-integration-in-context-paypal>
+
+    <ovh-payment-method-integration-in-context-administrative-mandate
+        data-ng-switch-when="ADMINISTRATIVE_MANDATE"
+    ></ovh-payment-method-integration-in-context-administrative-mandate>
 </div>

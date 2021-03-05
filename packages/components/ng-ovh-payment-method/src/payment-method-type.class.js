@@ -37,6 +37,15 @@ export default class OvhPaymentMehtodType {
   }
 
   /**
+   * Determine if payment method type is an Administrative Mandate.
+   *
+   * @return {Boolean}
+   */
+  isAdministrativeMandate() {
+    return this.paymentType === PAYMENT_METHOD_TYPE_ENUM.ADMINISTRATIVE_MANDATE;
+  }
+
+  /**
    * Determine if payment method type is a Deferred Payment Account.
    *
    * @return {Boolean}

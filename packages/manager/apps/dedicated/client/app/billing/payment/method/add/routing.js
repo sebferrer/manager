@@ -33,10 +33,13 @@ export default /* @ngInject */ ($stateProvider, $urlRouterProvider) => {
           isLastStep: () => {
             const paymentMethodType = model.selectedPaymentMethodType;
 
-            return [
-              OVH_PAYMENT_METHOD_INTEGRATION_TYPE.IN_CONTEXT,
-              OVH_PAYMENT_METHOD_INTEGRATION_TYPE.REDIRECT,
-            ].includes(paymentMethodType.integration);
+            return (
+              [
+                OVH_PAYMENT_METHOD_INTEGRATION_TYPE.IN_CONTEXT,
+                OVH_PAYMENT_METHOD_INTEGRATION_TYPE.REDIRECT,
+              ].includes(paymentMethodType.integration) &&
+              !paymentMethodType.type.isAdministrativeMandate()
+            );
           },
         },
         legacyBankAccount: {
@@ -68,11 +71,17 @@ export default /* @ngInject */ ($stateProvider, $urlRouterProvider) => {
         },
         paymentMethodIntegration: {
           name: 'paymentMethodIntegration',
-          position: 2,
+          // position: 2,
+          getPosition: () =>
+            !model.selectedPaymentMethodType.type.isAdministrativeMandate()
+              ? 2
+              : 1,
           loading: false,
           isVisible: () =>
-            model.selectedPaymentMethodType.isRequiringContactId(),
-          isLastStep: () => true,
+            model.selectedPaymentMethodType.isRequiringContactId() ||
+            model.selectedPaymentMethodType.type.isAdministrativeMandate(),
+          isLastStep: () =>
+            !model.selectedPaymentMethodType.type.isAdministrativeMandate(),
         },
       }),
 
@@ -114,6 +123,7 @@ export default /* @ngInject */ ($stateProvider, $urlRouterProvider) => {
         $transition$,
         $translate,
         goPaymentList,
+        model,
         RedirectionService,
       ) => () => {
         const { callbackUrl } = $transition$.params();
@@ -125,7 +135,11 @@ export default /* @ngInject */ ($stateProvider, $urlRouterProvider) => {
         return goPaymentList(
           {
             type: 'success',
-            text: $translate.instant('billing_payment_method_add_success'),
+            text: $translate.instant(
+              model.selectedPaymentMethodType.type.isAdministrativeMandate()
+                ? 'billing_payment_method_add_administrative_mandate_success'
+                : 'billing_payment_method_add_success',
+            ),
           },
           get($transition$.params(), 'from', null),
         );

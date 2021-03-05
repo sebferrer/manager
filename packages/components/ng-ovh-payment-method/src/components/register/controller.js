@@ -20,9 +20,14 @@ import {
 
 export default class OvhPaymentMethodRegisterCtrl {
   /* @ngInject */
-  constructor(ovhPaymentMethod, ovhPaymentMethodHelper) {
+  constructor(
+    ovhPaymentMethod,
+    ovhPaymentMethodHelper,
+    OVH_PAYMENT_METHOD_TYPE,
+  ) {
     this.ovhPaymentMethod = ovhPaymentMethod;
     this.ovhPaymentMethodHelper = ovhPaymentMethodHelper;
+    this.OVH_PAYMENT_METHOD_TYPE = OVH_PAYMENT_METHOD_TYPE;
 
     // other attributes used in view
     this.loading = {
@@ -88,6 +93,7 @@ export default class OvhPaymentMethodRegisterCtrl {
             const typeBIndex = this.paymentMethodTypesOrder.indexOf(
               typeB.paymentType,
             );
+
             return typeAIndex > typeBIndex;
           },
         );
@@ -193,6 +199,16 @@ export default class OvhPaymentMethodRegisterCtrl {
       .finally(() => {
         this.loading.init = false;
       });
+  }
+
+  canBeSetAsDefault() {
+    return (
+      this.showSetAsDefaultChoice &&
+      this.model &&
+      this.model.selectedPaymentMethodType &&
+      this.model.selectedPaymentMethodType.paymentType !==
+        this.OVH_PAYMENT_METHOD_TYPE.ADMINISTRATIVE_MANDATE
+    );
   }
 
   /* -----  End of Hooks  ------ */

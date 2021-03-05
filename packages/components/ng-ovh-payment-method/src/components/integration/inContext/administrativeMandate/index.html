@@ -1,0 +1,64 @@
+<div>
+    <oui-field
+        data-label="{{ :: 'ovh_payment_method_integration_administrative_mandate_siret' | translate }}"
+        data-error-messages="{ pattern: ('ovh_payment_method_integration_administrative_mandate_siret_invalid' | translate) }"
+    >
+        <input
+            type="text"
+            class="oui-input"
+            id="companyNationalIdentificationNumber"
+            name="companyNationalIdentificationNumber"
+            data-ng-model="$ctrl.model.companyNationalIdentificationNumber"
+            data-required
+            data-ng-pattern="/^(\d{14}|\d{9})$/"
+        />
+    </oui-field>
+
+    <oui-field
+        data-label="{{ :: 'ovh_payment_method_integration_administrative_mandate_service_code' | translate }}"
+        data-error-messages="{
+          required: ('ovh_payment_method_integration_administrative_mandate_service_code_required' | translate),
+          pattern: ('ovh_payment_method_integration_administrative_mandate_service_code_invalid' | translate)
+        }"
+    >
+        <input
+            type="text"
+            class="oui-input"
+            id="customer_service_code"
+            name="customer_service_code"
+            data-ng-model="$ctrl.model.serviceCode"
+            data-ng-required="$ctrl.isFieldRequired('customer_service_code')"
+            data-ng-pattern="/^[\d\w]+\S$/"
+        />
+    </oui-field>
+
+    <oui-field
+        data-label="{{ :: 'ovh_payment_method_integration_administrative_mandate_engagement_number' | translate }}"
+        data-error-messages="{
+          required: ('ovh_payment_method_integration_administrative_mandate_engagement_number_required' | translate),
+          pattern: ('ovh_payment_method_integration_administrative_mandate_engagement_number_invalid' | translate)
+        }"
+    >
+        <input
+            type="text"
+            class="oui-input"
+            id="engagement_number"
+            name="engagement_number"
+            data-ng-model="$ctrl.model.engagementNumber"
+            data-ng-required="$ctrl.isFieldRequired('engagement_number')"
+            data-ng-pattern="/^[\d\w]+\S$/"
+        />
+    </oui-field>
+
+    <oui-field
+        data-label="{{ :: 'ovh_payment_method_integration_administrative_mandate_description' | translate }}"
+    >
+        <input
+            type="text"
+            class="oui-input"
+            id="description"
+            name="description"
+            data-ng-model="$ctrl.model.description"
+        />
+    </oui-field>
+</div>

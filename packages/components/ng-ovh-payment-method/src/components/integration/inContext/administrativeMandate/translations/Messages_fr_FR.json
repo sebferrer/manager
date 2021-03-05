@@ -1,0 +1,11 @@
+{
+  "ovh_payment_method_integration_administrative_mandate_siret": "SIRET (Obligatoire)",
+  "ovh_payment_method_integration_administrative_mandate_siret_invalid": "Le format du numéro SIRET est invalide",
+  "ovh_payment_method_integration_administrative_mandate_service_code": "Code service",
+  "ovh_payment_method_integration_administrative_mandate_service_code_invalid": "Le code service est incorrect",
+  "ovh_payment_method_integration_administrative_mandate_service_code_required": "Votre compte nécessite un code de service",
+  "ovh_payment_method_integration_administrative_mandate_engagement_number": "Numéro d'engagement",
+  "ovh_payment_method_integration_administrative_mandate_engagement_number_invalid": "Le numéro d'engagement est incorrect",
+  "ovh_payment_method_integration_administrative_mandate_engagement_number_required": "Votre compte nécessite un numéro d'engagement",
+  "ovh_payment_method_integration_administrative_mandate_description": "Description"
+}

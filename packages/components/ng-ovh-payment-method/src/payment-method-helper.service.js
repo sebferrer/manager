@@ -2,10 +2,12 @@ import { get } from 'lodash-es';
 
 import {
   IBAN_BIC_RULES,
+  PAYMENT_METHOD_TYPE_ENUM,
   TYPE_INTEGRATION_ENUM,
 } from './payment-method.constants';
 
 import AdyenService from './components/integration/component/adyen/service';
+import AdministrativeMandateService from './components/integration/inContext/administrativeMandate/service';
 
 export default class OvhPaymentMethodHelperService {
   /* @ngInject */
@@ -40,17 +42,35 @@ export default class OvhPaymentMethodHelperService {
     );
   }
 
-  static getCallbackIntegrationTypeRelated(locationSearch) {
-    return AdyenService.hasCallbackUrlParams(locationSearch)
-      ? TYPE_INTEGRATION_ENUM.COMPONENT
-      : TYPE_INTEGRATION_ENUM.REDIRECT;
-  }
-
   /* -----  End of Public methods  ------ */
 
   /* =====================================
   =            Static methods            =
   ====================================== */
+
+  static handleResponse(paymentMethodType, response) {
+    let handleResponseObject;
+
+    switch (response.resource.paymentType) {
+      case PAYMENT_METHOD_TYPE_ENUM.ADMINISTRATIVE_MANDATE:
+        handleResponseObject = AdministrativeMandateService.getRequiredField(
+          { message: 'engagement_number - Must be provided' },
+          // response.data,
+        );
+        break;
+      default:
+        handleResponseObject = null;
+        break;
+    }
+
+    return handleResponseObject;
+  }
+
+  static getCallbackIntegrationTypeRelated(locationSearch) {
+    return AdyenService.hasCallbackUrlParams(locationSearch)
+      ? TYPE_INTEGRATION_ENUM.COMPONENT
+      : TYPE_INTEGRATION_ENUM.REDIRECT;
+  }
 
   static isValidIban(ibanParam) {
     let iban = ibanParam;
