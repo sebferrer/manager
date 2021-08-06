@@ -14509,10 +14509,9 @@ osenv@0, osenv@^0.1.4, osenv@^0.1.5:
     os-homedir "^1.0.0"
     os-tmpdir "^1.0.0"
 
-ovh-api-services@^11.2.0:
-  version "11.2.0"
-  resolved "https://registry.npmjs.org/ovh-api-services/-/ovh-api-services-11.2.0.tgz#42583c9fe11e216beaa56cfabe535c36e3b5ca75"
-  integrity sha512-zwUANwCyRR+bqJgBgn8CbA6tV6zjB9koSfLb8ZkRXLgO/Y2t9Ra/tKyQeQxCyHL91UcNSN2Z1Mvcym9ehrDcMQ==
+ovh-api-services@^11.2.0, "ovh-api-services@git+https://github.com/ovh-ux/ovh-api-services.git#feat/aapi-removal":
+  version "11.0.1"
+  resolved "git+https://github.com/ovh-ux/ovh-api-services.git#21b7d160fff1f2c740325f5411db25da40e4e4ec"
   dependencies:
     lodash "^4.17.20"
 

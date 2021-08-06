@@ -42,7 +42,8 @@
     "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md"
   },
   "resolutions": {
-    "flatpickr": "4.6.9"
+    "flatpickr": "4.6.9",
+    "ovh-api-services": "git+https://github.com/ovh-ux/ovh-api-services.git#feat/aapi-removal"
   },
   "devDependencies": {
     "@commitlint/cli": "^12.1.4",
