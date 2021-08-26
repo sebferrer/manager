@@ -126,6 +126,42 @@ angular
         }),
       );
     },
+  )
+  .run(
+    /* @ngInject */ ($transitions) => {
+      /**
+       * Use onBefore hook to detect if a transition is starting
+       * Use onSuccess to detect when transition complete
+       *
+       * We use `transitionCompleted` to detect if a transition is started in case of another
+       * transition is triggered.
+       *
+       * Exemple: Some transition redirects to other state, in this case we have (in order):
+       * - Transition A - onBefore hook
+       * - Transition A redirect to a different state (error state or another)
+       * - Transition B - onBefore hook
+       * - Transition B - onSuccess hook
+       *
+       * The `transitionDuration` will contains the duration between Transition A start
+       * and Transition B success.
+       */
+      let transitionCompleted = true;
+      let transitionStartTime = 0;
+      $transitions.onBefore({}, (transition) => {
+        if (transitionCompleted) {
+          transitionStartTime = new Date().getTime();
+          transitionCompleted = false;
+        }
+
+        transition.onSuccess({}, () => {
+          const transitionEndTime = new Date().getTime();
+          const transitionDuration = transitionEndTime - transitionStartTime;
+          transitionCompleted = true;
+          // eslint-disable-next-line no-console
+          console.log(`transition duration (ms): ${transitionDuration}`);
+        });
+      });
+    },
   );
 
 export default moduleName;
