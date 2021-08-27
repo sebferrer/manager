@@ -113,6 +113,7 @@ import ovhManagerCloudConnect from '@ovh-ux/manager-cloud-connect';
 import { detach as detachPreloader } from '@ovh-ux/manager-preloader';
 import ovhNotificationsSidebar from '@ovh-ux/manager-notifications-sidebar';
 import ovhManagerAccountMigration from '@ovh-ux/manager-account-migration';
+import dedicatedHousing from '@ovh-ux/manager-dedicated-housing';
 import account from './account';
 import cdn from './cdn';
 import moduleLicense from './license';
@@ -127,7 +128,6 @@ import ipComponents from './components/ip/ip-components.module';
 
 import dedicatedServer from './dedicated/server';
 import dedicatedNas from './dedicated/nas';
-import dedicatedHousing from './dedicated/housing';
 import userContracts from './user-contracts';
 import otrs from './otrs';
 
