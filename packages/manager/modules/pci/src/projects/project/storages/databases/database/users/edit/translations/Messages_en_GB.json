@@ -1,0 +1,8 @@
+{
+  "pci_databases_users_edit": "Edit user",
+  "pci_databases_users_edit_roles": "Roles",
+  "pci_databases_users_edit_roles_available": "Available roles",
+  "pci_databases_users_edit_roles_selected": "Selected roles",
+  "pci_databases_users_edit_success_message": "The user {{username}} has been edited",
+  "pci_databases_users_edit_error_save": "An error has occurred editing the user: {{message}}."
+}

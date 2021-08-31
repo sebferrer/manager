@@ -41,6 +41,22 @@ export default /* @ngInject */ ($stateProvider) => {
             },
           );
         },
+        editRoles: /* @ngInject */ (
+          $state,
+          database,
+          projectId,
+          trackDatabases,
+        ) => (user) => {
+          trackDatabases('dashboard::users::edit_a_user');
+          return $state.go(
+            'pci.projects.project.storages.databases.dashboard.users.edit',
+            {
+              projectId,
+              databaseId: database.id,
+              userId: user.id,
+            },
+          );
+        },
         deleteUser: /* @ngInject */ (
           $state,
           database,

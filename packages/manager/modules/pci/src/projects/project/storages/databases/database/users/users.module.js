@@ -4,6 +4,7 @@ import '@ovh-ux/ng-translate-async-loader';
 import 'angular-translate';
 
 import addUser from './add';
+import editUser from './edit';
 import deleteUser from './delete';
 import modifyPassword from './modify-password';
 import routing from './users.routing';
@@ -21,6 +22,7 @@ angular
     deleteUser,
     modifyPassword,
     users,
+    editUser,
   ])
   .config(routing);
 

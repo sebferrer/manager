@@ -2,6 +2,7 @@
   "pci_databases_users_add": "Ajouter un utilisateur",
   "pci_databases_users_add_username_label": "Nom d'utilisateur",
   "pci_databases_users_add_roles": "Éditer les rôles",
+  "pci_databases_users_add_roles_label": "Rôles",
   "pci_databases_users_add_roles_available": "Rôles disponibles",
   "pci_databases_users_add_roles_selected": "Rôles sélectionnés",
   "pci_databases_users_add_create": "Créer un utilisateur",

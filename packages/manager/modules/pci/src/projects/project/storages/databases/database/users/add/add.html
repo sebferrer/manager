@@ -4,7 +4,7 @@
 >
 </oui-back-button>
 
-<h2>Add user</h2>
+<h2 data-translate="pci_databases_users_add"></h2>
 <oui-field
     data-label="{{:: 'pci_databases_users_add_username_label' | translate }}"
     data-size="xl"
@@ -20,7 +20,7 @@
     />
 </oui-field>
 
-<h2>Roles</h2>
+<h2 data-translate="pci_databases_users_add_roles_label"></h2>
 <oui-dual-list
     data-source="$ctrl.availableRoles"
     data-target="$ctrl.model.selectedRoles"
@@ -38,13 +38,15 @@
     </oui-dual-list-target>
 </oui-dual-list>
 <div class="text-right">
-    <oui-button size="l">Cancel</oui-button>
+    <oui-button size="l"
+        ><span data-translate="common_cancel"></span
+    ></oui-button>
     <oui-button
         size="l"
         variant="primary"
         icon-right="oui-icon-arrow-right"
         disabled="$ctrl.processing"
         ng-click="$ctrl.addUser()"
-        >Add user</oui-button
-    >
+        ><span data-translate="pci_databases_users_add"></span
+    ></oui-button>
 </div>
