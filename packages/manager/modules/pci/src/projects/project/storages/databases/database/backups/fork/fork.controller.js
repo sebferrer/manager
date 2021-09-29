@@ -5,6 +5,10 @@ export default class {
     this.service = DatabaseService;
   }
 
+  $onInit() {
+    this.trackDashboard('backups::options_menu::fork', 'page');
+  }
+
   forkInstance() {
     this.trackDashboard('backups::options_menu::fork_validate');
     this.isLoading = true;

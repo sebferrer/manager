@@ -7,6 +7,10 @@ export default class {
     this.service = DatabaseService;
   }
 
+  $onInit() {
+    this.trackDashboard('backups::options_menu::restore', 'page');
+  }
+
   restoreInstance() {
     this.trackDashboard('backups::options_menu::restore_validate');
     this.isLoading = true;
