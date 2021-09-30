@@ -37,7 +37,7 @@
         data-valid="$ctrl.model.engine"
         data-on-submit="$ctrl.setDefaultPlan()"
         data-prevent-next="true"
-        data-editable="!$ctrl.processingOrder"
+        data-editable="false"
     >
         <database-engines-list
             data-engines="$ctrl.engines"
@@ -51,7 +51,7 @@
         data-valid="$ctrl.model.plan"
         data-on-submit="$ctrl.setDefaultRegion()"
         data-prevent-next="true"
-        data-editable="!$ctrl.processingOrder"
+        data-editable="false"
     >
         <database-plans-list
             data-plans="$ctrl.model.engine.selectedVersion.plans"
@@ -66,7 +66,7 @@
         data-valid="$ctrl.model.region"
         data-on-submit="$ctrl.setDefaultFlavor()"
         data-prevent-next="true"
-        data-editable="!$ctrl.processingOrder"
+        data-editable="false"
     >
         <pci-project-regions-list
             data-ng-if="$ctrl.currentStep >= 2"
@@ -81,7 +81,7 @@
         data-valid="$ctrl.model.flavor"
         data-on-submit="$ctrl.onFlavorSelect()"
         data-prevent-next="true"
-        data-editable="!$ctrl.processingOrder"
+        data-editable="false"
     >
         <oui-field
             data-label="{{ ::'pci_database_add_nodes_count' | translate }}"
@@ -108,7 +108,7 @@
         data-header="{{:: 'pci_database_add_step5_title' | translate }}"
         data-valid="$ctrl.isNetworkSelected()"
         data-prevent-next="true"
-        data-editable="!$ctrl.processingOrder"
+        data-editable="false"
     >
         <oui-field
             data-size="l"
@@ -239,7 +239,7 @@
         data-valid="$ctrl.labAccepted"
         data-prevent-next="true"
         data-submit-text="{{:: 'pci_database_add_create_database' | translate }}"
-        data-editable="!$ctrl.processingOrder"
+        data-editable="false"
     >
         <database-order-review
             data-engine="$ctrl.model.engine.name"
