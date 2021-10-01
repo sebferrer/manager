@@ -1,5 +1,7 @@
 import { snakeCase, startsWith } from 'lodash-es';
 
+import intlTelInput from 'intl-tel-input';
+import 'intl-tel-input/build/js/utils';
 import moment from 'moment';
 
 export default /* @ngInject */ function(
@@ -129,26 +131,74 @@ export default /* @ngInject */ function(
     return formatPhoneNumbers(self.ovhContactCtrl.contact.cellPhone);
   };
 
-  self.forcePhoneFormat = function forcePhoneFormat($event, field) {
+  self.forcePhoneFormat = function forcePhoneFormat(field, fieldId) {
     // use timeout to force phone number to be undefined if only country dial code or to be
     // prefixed by "+"(international format) if phone number value starts with country dialcode
     $timeout(() => {
-      const countryData = $($event.target).intlTelInput(
-        'getSelectedCountryData',
-      );
+      const countryData = field.getSelectedCountryData();
       if (
-        self.ovhContactCtrl.contact[field] === countryData.dialCode ||
-        !self.ovhContactCtrl.contact[field]
+        self.ovhContactCtrl.contact[fieldId] === countryData.dialCode ||
+        !self.ovhContactCtrl.contact[fieldId]
       ) {
-        self.ovhContactCtrl.contact[field] = undefined;
+        self.ovhContactCtrl.contact[fieldId] = undefined;
       } else if (
-        startsWith(self.ovhContactCtrl.contact[field], countryData.dialCode)
+        startsWith(self.ovhContactCtrl.contact[fieldId], countryData.dialCode)
       ) {
         self.ovhContactCtrl.contact[
-          field
-        ] = `+${self.ovhContactCtrl.contact[field]}`;
+          fieldId
+        ] = `+${self.ovhContactCtrl.contact[fieldId]}`;
       }
     });
+  };
+
+  self.initializeTelInput = function initializeTelInput(
+    inputId,
+    initialValue = '',
+    options = {},
+  ) {
+    const inputToInitialize = document.querySelector(inputId);
+    const telInput = intlTelInput(inputToInitialize, {
+      initialCountry: self.ovhContactCtrl.contact.address.country,
+      formatOnDisplay: true,
+      nationalMode: false,
+      preferredCountries: [''],
+      utilsScript: 'build/js/utils.js',
+      ...options,
+    });
+
+    inputToInitialize.addEventListener(
+      'blur',
+      (() =>
+        function forcePhoneFormat() {
+          $timeout(() => {
+            self.forcePhoneFormat(telInput, inputToInitialize.id);
+          }, 1); // Need to have smallest timeout delay to force formatting on blur event
+        })(),
+    );
+
+    const getSetValidityFunction = () =>
+      function setValidity() {
+        $timeout(() => {
+          self.ovhContactEdit[inputToInitialize.id].$setValidity(
+            'internationalPhoneNumber',
+            telInput.isValidNumber(),
+          );
+        }, 100); // Setting validity on blur, right after the forcePhoneFormat has been done
+      };
+
+    inputToInitialize.addEventListener('blur', getSetValidityFunction());
+    inputToInitialize.addEventListener('keydown', getSetValidityFunction());
+    inputToInitialize.addEventListener('keypress', function blockNonNumericKeys(
+      event,
+    ) {
+      if (event.charCode < 48 || event.charCode > 57) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    });
+
+    telInput.setNumber(initialValue.replace(/\D/g, ''));
+    return telInput;
   };
 
   self.$onInit = function $onInit() {
@@ -166,6 +216,23 @@ export default /* @ngInject */ function(
       .finally(() => {
         self.loading.init = false;
         self.ovhContactCtrl.loading.load = false;
+
+        self.itiPhone = self.initializeTelInput(
+          '#phone',
+          self.formatedPhone(),
+          {
+            placeholderNumberType: 'FIXED_LINE',
+          },
+        );
+        self.itiCellPhone = self.initializeTelInput(
+          '#cellphone',
+          self.formatedCellPhone(),
+        );
       });
+  };
+
+  self.$onDestroy = function $onDestroy() {
+    self.itiPhone.destroy();
+    self.itiCellPhone.destroy();
   };
 }
