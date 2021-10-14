@@ -33,6 +33,7 @@ export default /* @ngInject */ () => {
             ...config.headers,
             [HEADER_REQUEST_ID]: `${Date.now()}-${requestIndex}`,
             ...overridenHeaders,
+            'X-OVH-MANAGER-AAPI': true,
           },
         };
         if (!isEmpty(headerVersion)) {

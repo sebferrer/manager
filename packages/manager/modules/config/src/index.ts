@@ -27,6 +27,7 @@ export const fetchConfiguration = async (
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
       Accept: 'application/json',
+      'X-OVH-MANAGER-AAPI': true
     },
     credentials: 'same-origin',
   };
