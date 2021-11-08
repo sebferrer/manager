@@ -83,7 +83,15 @@ export default class Kubernetes {
       .catch((error) => (error.status === 400 ? false : Promise.reject(error)));
   }
 
-  createCluster(projectId, name, region, version, privateNetworkId, nodepool) {
+  createCluster(
+    projectId,
+    name,
+    region,
+    version,
+    privateNetworkId,
+    privateNetworkIp,
+    nodepool,
+  ) {
     if (nodepool.antiAffinity) {
       set(nodepool, 'maxNodes', ANTI_AFFINITY_MAX_NODES);
     }
@@ -94,7 +102,14 @@ export default class Kubernetes {
       version,
       nodepool,
       ...(privateNetworkId && { privateNetworkId }),
+      ...(privateNetworkId && { privateNetworkIp }), // only if private network choose
     });
+  }
+
+  resetCluster(projectId, kubeId, params) {
+    return this.$http
+      .post(`/cloud/project/${projectId}/kube/${kubeId}/reset`, params)
+      .then(({ data }) => data);
   }
 
   createNodePool(projectId, kubeId, nodePool) {
