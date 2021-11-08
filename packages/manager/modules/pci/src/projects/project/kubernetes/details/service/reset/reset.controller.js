@@ -32,7 +32,13 @@ export default class kubernetesResetCtrl {
     this.model = {
       version: kubernetesResetCtrl.getFormatedVersion(this.cluster.version),
       workerNodesPolicy: WORKER_NODE_POLICIES.DELETE,
-      privateNetwork: currentPrivateNetwork || privateNetworkNone,
+      network: {
+        private: currentPrivateNetwork || privateNetworkNone,
+        gateway: {
+          enabled: false, // false -> OVHcloud gateway, true -> vRack gateway
+          ip: '',
+        },
+      },
     };
   }
 
@@ -48,17 +54,11 @@ export default class kubernetesResetCtrl {
     const options = {
       version: this.model.version,
       workerNodesPolicy: this.model.workerNodesPolicy,
-      privateNetworkId: this.model.privateNetwork.clusterRegion?.openstackId,
+      privateNetworkId: this.model.network.private.clusterRegion?.openstackId,
+      privateNetworkIp: 'test', // TODO:: to complete once API was provided
     };
-    return this.OvhApiCloudProjectKube.v6()
-      .reset(
-        {
-          serviceName: this.projectId,
-          kubeId: this.kubeId,
-        },
-        options,
-      )
-      .$promise.then(() =>
+    return this.Kubernetes.resetCluster(this.projectId, this.kubeId, options)
+      .then(() =>
         this.goBack(
           this.$translate.instant(
             'pci_projects_project_kubernetes_service_reset_success',
