@@ -2,23 +2,27 @@ export const ACTIONS = [
   {
     translation: 'pci_projects_project_create_an_instance',
     state: 'pci.projects.project.instances.add',
+    feature: PCI_FEATURES.PRODUCTS.INSTANCE,
   },
   {
     translation: 'pci_projects_project_create_a_volume',
     state: 'pci.projects.project.storages.blocks.add',
+    feature: PCI_FEATURES.PRODUCTS.BLOCK_STORAGE,
   },
   {
     translation: 'pci_projects_project_create_a_container',
     state: 'pci.projects.project.storages.object-storage.add',
+    feature: PCI_FEATURES.PRODUCTS.OBJECT_STORAGE,
   },
   {
     translation: 'pci_projects_project_activate_private_networks',
     state: 'pci.projects.project.privateNetwork',
+    feature: PCI_FEATURES.PRODUCTS.PRIVATE_NETWORK,
   },
   {
     translation: 'pci_projects_project_create_cluster_kubernetes',
     state: 'pci.projects.project.kubernetes',
-    feature: 'kubernetes',
+    feature: PCI_FEATURES.PRODUCTS.KUBERNETES,
   },
 ];
 
