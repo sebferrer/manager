@@ -1,7 +1,4 @@
 import angular from 'angular';
-import isNil from 'lodash/isNil';
-
-import { ACTIONS, LINKS } from './project.constants';
 
 export default class ProjectController {
   /* @ngInject */
@@ -28,13 +25,6 @@ export default class ProjectController {
     this.coreConfig = coreConfig;
     this.ovhFeatureFlipping = ovhFeatureFlipping;
     this.PciProject = PciProject;
-
-    const filterByRegion = (list) =>
-      list.filter(
-        ({ regions }) => isNil(regions) || coreConfig.isRegion(regions),
-      );
-
-    this.links = filterByRegion(LINKS);
   }
 
   $onInit() {
@@ -49,38 +39,17 @@ export default class ProjectController {
       (quota) => quota.quotaAboveThreshold,
     );
 
-    const featuresName = ProjectController.findFeatureToCheck(ACTIONS);
-    this.ovhFeatureFlipping
-      .checkFeatureAvailability(featuresName)
-      .then((features) => {
-        const isItemAvailable = ({
-          regions,
-          feature,
-          availableForTrustedZone,
-        }) => {
-          const isValidRegion =
-            isNil(regions) || this.coreConfig.isRegion(regions);
-          const isValidFeature =
-            !feature || features.isFeatureAvailable(feature);
-
-          return (
-            (!this.isTrustedZone && isValidRegion && isValidFeature) ||
-            (this.isTrustedZone &&
-              availableForTrustedZone &&
-              isValidRegion &&
-              isValidFeature)
-          );
-        };
-
-        this.actions = ACTIONS.filter((action) => {
-          return isItemAvailable(action);
-        });
-      });
     this.PciProject.setProjectInfo(this.project);
   }
 
   closeSidebar() {
     this.isSidebarOpen = false;
+  }
+
+  isDisplayableLink({ availableForTrustedZone }) {
+    const { isTrustedZone } = this;
+
+    return !isTrustedZone || (isTrustedZone && availableForTrustedZone);
   }
 
   /**
