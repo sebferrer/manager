@@ -28,13 +28,15 @@
         <oui-field
             label="{{:: 'telephony_billingAccount_svaWallet_kyc_identity_document_document_upload_label' | translate : { confirmationCode: $ctrl.confirmationCode} }}"
             size="auto"
-            help-text="{{:: 'telephony_billingAccount_svaWallet_kyc_documents_maxsize_warning' | translate }}"
+            help-text="{{:: 'telephony_billingAccount_svaWallet_kyc_documents_maxsize_warning' | translate: { extensions: $ctrl.extensions } }}"
+            error-messages="{ extension: ('telephony_billingAccount_svaWallet_kyc_documents_extension_error' | translate: { extensions: $ctrl.extensions }) }"
         >
             <oui-file
+                name="file"
                 disabled="$ctrl.disabled"
                 maxsize="10485760"
                 model="$ctrl.file"
-                accept=".png, .jpg, .jpeg, .pdf"
+                accept="{{ $ctrl.accept }}"
                 required
             >
             </oui-file>
