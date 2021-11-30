@@ -1382,4 +1382,16 @@ export default class PrivateDatabase {
       .post(`${this.swsProxypassPath}/${serviceName}/quotaRefresh`)
       .then((response) => response.data);
   }
+
+  getWebHostingNetwork(serviceName) {
+    return this.OvhHttp.get(
+      '/hosting/privateDatabase/{serviceName}/webhostingNetwork',
+      {
+        urlParams: {
+          serviceName,
+        },
+        rootPath: 'apiv6',
+      },
+    );
+  }
 }

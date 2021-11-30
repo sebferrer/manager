@@ -170,6 +170,21 @@
                             </oui-action-menu>
                         </oui-tile-definition>
                         <oui-tile-definition
+                            data-term="{{ ::'privateDatabase_dashboard_webhosting_network' | translate}}"
+                            data-ng-if="stateCtrl.database.state"
+                        >
+                            <oui-tile-description>
+                                <div
+                                    class="oui-badge"
+                                    data-ng-class="{
+                                         'oui-badge_error': stateCtrl.database.state === 'detached',
+                                         'oui-badge_warning' : stateCtrl.database.state === 'restartPending' || stateCtrl.database.state === 'stopPending' || database.state === 'stopped',
+                                         'oui-badge_success' : stateCtrl.database.state === 'startPending' || stateCtrl.database.state === 'started' }"
+                                    data-ng-bind="'privateDatabase_dashboard_' + stateCtrl.database.state | translate"
+                                ></div>
+                            </oui-tile-description>
+                        </oui-tile-definition>
+                        <oui-tile-definition
                             data-term="{{ ::'privateDatabase_dashboard_infrastructure' | translate}}"
                         >
                             <oui-tile-description>

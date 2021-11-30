@@ -56,6 +56,7 @@
   "privateDatabase_dashboard_admin_informations_users": "Reportez-vous à l'onglet utilisateurs et droits",
   "privateDatabase_dashboard_name_validate": "Valider",
   "privateDatabase_dashboard_name_cancel": "Annuler",
+  "privateDatabase_dashboard_webhosting_network": "Accès WebHosting",
   "privateDatabase_tab_USER": "Utilisateurs et droits",
   "privateDatabase_tab_STATE": "Informations générales",
   "privateDatabase_tab_DATABASE": "Bases de données",

@@ -47,6 +47,7 @@ export default class PrivateDatabaseStateCtrl {
 
     this.hostingsLinked = [];
     this.userInfos = {};
+    this.WebHostingNetworkStatus = '';
 
     this.database.oom = {
       nbOomError: 4,
@@ -56,10 +57,12 @@ export default class PrivateDatabaseStateCtrl {
       this.getHostingsLinked();
       this.getOomList();
     }
+    this.getWebHostingNetwork();
 
     this.privateDatabaseService.canOrderRam(this.productId).then((canOrder) => {
       this.canOrderRam = canOrder;
     });
+    console.log(this.WebHostingNetworkStatus);
   }
 
   convertBytesSize(nb, unit, decimalWanted = 0) {
@@ -201,5 +204,15 @@ export default class PrivateDatabaseStateCtrl {
           this.$scope.alerts.main,
         );
       });
+  }
+
+  getWebHostingNetwork() {
+    this.privateDatabaseService
+      .getWebHostingNetwork(this.productId)
+      .then((WebHostingNetworkStatus) => {
+        console.log(WebHostingNetworkStatus);
+        this.WebHostingNetworkStatus = WebHostingNetworkStatus;
+      })
+      .catch((err) => this.alerter.error(err));
   }
 }
