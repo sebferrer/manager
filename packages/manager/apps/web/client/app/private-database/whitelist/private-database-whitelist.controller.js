@@ -25,6 +25,26 @@ angular.module('App').controller(
       this.serviceName = this.$stateParams.productId;
 
       this.getList();
+      this.getWebhostingNetwork();
+      console.log(this.getWebhostingNetwork());
+      this.WebhostingNetwork = this.getWebhostingNetwork();
+
+      console.log(this.WebhostingNetwork);
+
+      this.displayWebhostingStatus = {
+        classic: {
+          key: 'premium',
+          value: this.$translate.instant(
+            'privateDatabase_order_sql_type_premium_label',
+          ),
+        },
+        public: {
+          key: 'dbaas',
+          value: this.$translate.instant(
+            'privateDatabase_order_sql_type_dbaas_label',
+          ),
+        },
+      };
 
       this.privateDatabaseService.restartPoll(this.serviceName, [
         'whitelist/delete',
@@ -191,6 +211,18 @@ angular.module('App').controller(
           todo,
         );
       }
+    }
+
+    getWebhostingNetwork() {
+      this.WebhostingNetwork = null;
+
+      this.whitelistService
+        .getWebhostingNetwork(this.serviceName)
+        .then((res) => {
+          this.WebhostingNetwork = res;
+          return this.WebhostingNetwork;
+        })
+        .catch((err) => this.alerter.error(err));
     }
   },
 );

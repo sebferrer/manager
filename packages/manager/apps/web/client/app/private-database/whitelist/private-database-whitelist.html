@@ -10,7 +10,28 @@
                 data-ng-if="listCtrl.isWhitelistEmpty()"
             ></div>
 
-            <h2 data-translate="privateDatabase_add_authorized_ip_title"></h2>
+            <h3
+                data-translate="privateDatabase_tabs_whitelist_webhosting_network_access_title"
+            ></h3>
+
+            <div>
+                <oui-switch
+                    class="mt-2 d-inline-block"
+                    data-model="$ctrl.vm.protection.enabled"
+                    data-on-change="listCtrl.switchWebhostingAccess()"
+                ></oui-switch>
+                <span
+                    class="mt-2 ml-1 d-inline-block align-middle oui-badge"
+                    data-translate="'privateDatabase_tabs_whitelist_webhosting_network_access_' + listCtrl.webhostingAccess | translate"
+                    data-ng-class="{
+                      'oui-badge_success': $ctrl.vm.protection.enabled,
+                      'oui-badge_warning': $ctrl.vm.protection.isUnavailable,
+                      'oui-badge_error': !$ctrl.vm.protection.enabled && !$ctrl.vm.protection.isUnavailable
+                    }"
+                ></span>
+            </div>
+
+            <h3 data-translate="privateDatabase_add_authorized_ip_title"></h3>
 
             <oui-datagrid
                 data-rows="listCtrl.whitelistIps"
