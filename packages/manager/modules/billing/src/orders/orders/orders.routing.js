@@ -2,7 +2,7 @@ import controller from './billing-orders.controller';
 import template from './billing-orders.html';
 
 export default /* @ngInject */ ($stateProvider) => {
-  $stateProvider.state('app.account.billing.orders', {
+  $stateProvider.state('app.account.billing.orders.orders', {
     url: '/orders?filter',
     params: {
       filter: {
@@ -61,7 +61,7 @@ export default /* @ngInject */ ($stateProvider) => {
         }),
       updateFilterParam: /* @ngInject */ ($state) => (filter) =>
         $state.go(
-          'app.account.billing.orders',
+          'app.account.billing.orders.orders',
           {
             filter,
           },
@@ -69,8 +69,6 @@ export default /* @ngInject */ ($stateProvider) => {
             reload: false,
           },
         ),
-      breadcrumb: /* @ngInject */ ($translate) =>
-        $translate.instant('orders_page_title'),
       hideBreadcrumb: () => true,
     },
   });

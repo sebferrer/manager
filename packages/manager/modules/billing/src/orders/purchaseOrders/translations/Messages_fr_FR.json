@@ -1,0 +1,13 @@
+{
+  "purchaseOrders_page_title": "Mes références internes",
+  "purchaseOrders_page_description": "Votre référence interne correspond à une purchase order (PO), un nom de projet ou une mention interne. Toutes les factures émises indiqueront cette référence.",
+  "purchaseOrders_reference": "Référence",
+  "purchaseOrders_creationDate": "Date de création",
+  "purchaseOrders_startDate": "Date de début",
+  "purchaseOrders_endDate": "Date de fin",
+  "purchaseOrders_status": "Statut",
+  "purchaseOrders_status_CREATED": "CREATED",
+  "purchaseOrders_status_DELETED": "DELETED",
+  "purchaseOrders_create_reference": "Créer une référence interne",
+  "purchaseOrders_add_reference": "Ajouter une référence interne"
+}
