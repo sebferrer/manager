@@ -166,11 +166,13 @@ export default class TelecomTelephonyAliasRecordsCtrl {
   downloadRecords(records) {
     return records.reduce(
       (promise, { fileUrl }) =>
-        promise.then(() =>
-          this.$timeout(() => {
-            window.location = fileUrl;
-          }, 300),
-        ),
+        promise
+          .then(() =>
+            this.$timeout(() => {
+              window.location = fileUrl;
+            }, 300),
+          )
+          .catch((error) => console.log(error)),
       this.$q.when(),
     );
   }
