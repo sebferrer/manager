@@ -6,7 +6,6 @@ export default class BillingOrdersMainCtrl {
     $q,
     $log,
     $translate,
-    OvhApiMeOrder,
     constants,
     currentUser,
     coreConfig,

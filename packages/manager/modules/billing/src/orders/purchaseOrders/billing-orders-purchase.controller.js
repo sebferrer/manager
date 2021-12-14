@@ -15,6 +15,7 @@ export default class BillingOrdersPurchaseCtrl {
     updateFilterParam,
     purchase,
     atInternet,
+    $state,
   ) {
     this.$q = $q;
     this.$log = $log;
@@ -26,6 +27,7 @@ export default class BillingOrdersPurchaseCtrl {
     this.updateFilterParam = updateFilterParam;
     this.purchase = purchase;
     this.atInternet = atInternet;
+    this.$state = $state;
   }
 
   $onInit() {
@@ -66,10 +68,11 @@ export default class BillingOrdersPurchaseCtrl {
     }
   }
 
-  trackAddReference() {
+  addReference() {
     this.atInternet.trackClick({
       name: `dedicated::account::billing::create-internal-ref`,
       type: 'action',
     });
+    this.$state.go('app.account.billing.orders.purchase.add');
   }
 }

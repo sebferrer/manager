@@ -5,6 +5,7 @@ import ngTranslateAsyncLoader from '@ovh-ux/ng-translate-async-loader';
 import '@ovh-ux/ui-kit';
 import uiRouter from '@uirouter/angularjs';
 
+import addModule from './add';
 import ordersPurchaseService from './billing-orders-purchase.service';
 
 import routing from './purchase.routing';
@@ -18,6 +19,7 @@ angular
     ngTranslateAsyncLoader,
     'oui',
     uiRouter,
+    addModule,
   ])
   .config(routing)
   .service('BillingOrdersPurchase', ordersPurchaseService)
