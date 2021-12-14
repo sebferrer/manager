@@ -181,7 +181,7 @@ export default class OverTheBoxAutoconfigureDhcp {
       !this.staticLease.hostname &&
       !this.staticLease.ip &&
       !this.staticLease.mac &&
-      !this.config.priority
+      !this.staticLease.priority
     ) {
       return null;
     }
