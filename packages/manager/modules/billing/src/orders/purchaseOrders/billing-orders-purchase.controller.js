@@ -28,6 +28,10 @@ export default class BillingOrdersPurchaseCtrl {
     this.purchase = purchase;
     this.atInternet = atInternet;
     this.$state = $state;
+
+    this.toDay = new Date()
+      .toISOString()
+      .slice(0, new Date().toISOString().indexOf('T'));
   }
 
   $onInit() {
@@ -74,5 +78,25 @@ export default class BillingOrdersPurchaseCtrl {
       type: 'action',
     });
     this.$state.go('app.account.billing.orders.purchase.add');
+  }
+
+  getStatus($row) {
+    let status = '';
+    if (
+      $row.status === 'CREATED' &&
+      $row.startDate <= this.toDay === true &&
+      this.toDay <= $row.endDate === true
+    ) {
+      status = this.$translate.instant('purchaseOrders_status_CREATED_on');
+    } else if (
+      $row.status === 'CREATED' &&
+      ($row.startDate <= this.toDay === false ||
+        this.toDay <= $row.endDate === false)
+    ) {
+      status = this.$translate.instant('purchaseOrders_status_CREATED_off');
+    } else {
+      status = this.$translate.instant('purchaseOrders_status_DELETED');
+    }
+    return status;
   }
 }

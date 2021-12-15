@@ -75,9 +75,10 @@
                 class="oui-badge"
                 data-ng-class="{
                     'oui-badge_error': $value === 'DELETED',
-                    'oui-badge_success': $value === 'CREATED'
+                    'oui-badge_success': $value === 'CREATED' && $row.startDate <= $ctrl.toDay === true && $ctrl.toDay <= $row.endDate === true,
+                    'oui-badge_info': $value === 'CREATED' && ($row.startDate <= $ctrl.toDay === false || $ctrl.toDay <= $row.endDate === false)
                 }"
-                data-ng-bind="$value"
+                data-ng-bind="$ctrl.getStatus($row)"
             >
             </span>
         </oui-datagrid-column>
