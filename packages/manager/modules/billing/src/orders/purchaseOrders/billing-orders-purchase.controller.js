@@ -80,18 +80,21 @@ export default class BillingOrdersPurchaseCtrl {
     this.$state.go('app.account.billing.orders.purchase.add');
   }
 
+  editReference(item) {
+    this.$state.go('app.account.billing.orders.purchase.edit', item);
+  }
+
   getStatus($row) {
     let status = '';
     if (
       $row.status === 'CREATED' &&
-      $row.startDate <= this.toDay === true &&
-      this.toDay <= $row.endDate === true
+      $row.startDate <= this.toDay &&
+      this.toDay <= $row.endDate
     ) {
       status = this.$translate.instant('purchaseOrders_status_CREATED_on');
     } else if (
       $row.status === 'CREATED' &&
-      ($row.startDate <= this.toDay === false ||
-        this.toDay <= $row.endDate === false)
+      !($row.startDate <= this.toDay && this.toDay <= $row.endDate)
     ) {
       status = this.$translate.instant('purchaseOrders_status_CREATED_off');
     } else {

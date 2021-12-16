@@ -1,47 +1,51 @@
-export default class BillingOrdersPurchaseAddCtrl {
+export default class BillingOrdersPurchaseEditCtrl {
   /* @ngInject */
   constructor(
     $translate,
     $state,
     atInternet,
     purchase,
-    BillingOrdersPurchaseAdd,
+    BillingOrdersPurchaseEdit,
     goToPurchaseOrder,
+    item,
     $locale,
     dateFormat,
+    disableDate,
     minDate,
     minDateForEndDate,
-    disableDate,
   ) {
     this.$translate = $translate;
     this.$state = $state;
     this.atInternet = atInternet;
     this.purchase = purchase;
-    this.BillingOrdersPurchaseAdd = BillingOrdersPurchaseAdd;
+    this.BillingOrdersPurchaseEdit = BillingOrdersPurchaseEdit;
     this.goToPurchaseOrder = goToPurchaseOrder;
+    this.item = item;
     this.$locale = $locale;
     this.dateFormat = dateFormat;
+    this.disableDate = disableDate;
     this.minDate = minDate;
     this.minDateForEndDate = minDateForEndDate;
-    this.disableDate = disableDate;
+
+    this.purchase = this.purchase.find((elm) => elm.id === Number(this.item));
 
     this.model = {
       radioSelection: 'internal_reference',
-      inputReference: '',
-      inputStartDate: '',
-      inputEndDate: '',
+      inputReference: this.purchase.reference,
+      inputStartDate: new Date(this.purchase.startDate),
+      inputEndDate: new Date(this.purchase.endDate),
     };
   }
 
-  onCancelAdd() {
+  onCancelEdit() {
     if (this.model.radioSelection === 'internal_reference') {
       this.atInternet.trackClick({
-        name: `dedicated::account::billing::create-internal-ref_cancel`,
+        name: `dedicated::account::billing::modify-internal-ref_cancel`,
         type: 'action',
       });
     } else {
       this.atInternet.trackClick({
-        name: `dedicated::account::billing::create-po_cancel`,
+        name: `dedicated::account::billing::modify-po_cancel`,
         type: 'action',
       });
     }
@@ -53,15 +57,15 @@ export default class BillingOrdersPurchaseAddCtrl {
     this.minDateForEndDate = date.setDate(date.getDate() + 1);
   }
 
-  onSubmitAdd() {
+  onSubmitEdit() {
     if (this.model.radioSelection === 'internal_reference') {
       this.atInternet.trackClick({
-        name: `dedicated::account::billing::create-internal-ref_confirm`,
+        name: `dedicated::account::billing::create-modify-ref_confirm`,
         type: 'action',
       });
     } else {
       this.atInternet.trackClick({
-        name: `dedicated::account::billing::create-po_confirm`,
+        name: `dedicated::account::billing::modify-po_confirm`,
         type: 'action',
       });
     }
@@ -72,20 +76,20 @@ export default class BillingOrdersPurchaseAddCtrl {
       endDate: this.model.inputEndDate,
     };
 
-    this.BillingOrdersPurchaseAdd.postPurchaseOrder(data)
+    this.BillingOrdersPurchaseEdit.putPurchaseOrder(this.item, data)
       .then(() => {
         if (this.model.radioSelection === 'internal_reference') {
           this.atInternet.trackPage({
-            name: `dedicated::account::billing::create-internal-ref_success`,
+            name: `dedicated::account::billing::modify-internal-ref_success`,
           });
         } else {
           this.atInternet.trackPage({
-            name: `dedicated::account::billing::create-po_confirm`,
+            name: `dedicated::account::billing::modify-po_confirm`,
           });
         }
         this.goToPurchaseOrder(
           this.$translate.instant(
-            `purchaseOrders_form_add_purchase_submit_${this.model.radioSelection}_success`,
+            `purchaseOrders_edit_purchase_submit_${this.model.radioSelection}_success`,
           ),
           'success',
         );
@@ -93,17 +97,15 @@ export default class BillingOrdersPurchaseAddCtrl {
       .catch(() => {
         if (this.model.radioSelection === 'internal_reference') {
           this.atInternet.trackPage({
-            name: `dedicated::account::billing::create-internal-ref_error`,
+            name: `dedicated::account::billing::modify-internal-ref_error`,
           });
         } else {
           this.atInternet.trackPage({
-            name: `dedicated::account::billing::create-po_success`,
+            name: `dedicated::account::billing::modify-po_success`,
           });
         }
         this.goToPurchaseOrder(
-          this.$translate.instant(
-            'purchaseOrders_form_add_purchase_submit_error',
-          ),
+          this.$translate.instant('purchaseOrders_edit_purchase_submit_error'),
           'danger',
         );
       });

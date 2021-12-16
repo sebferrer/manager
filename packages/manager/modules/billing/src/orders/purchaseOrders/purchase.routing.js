@@ -43,6 +43,32 @@ export default /* @ngInject */ ($stateProvider) => {
       },
       schema: /* @ngInject */ (OvhApiMe) => OvhApiMe.v6().schema().$promise,
 
+      dateFormat: /* @ngInject */ ($locale) =>
+        $locale.DATETIME_FORMATS.shortDate
+          .replace('dd', 'd')
+          .replace('MM', 'm')
+          .replace('y', 'Y'),
+
+      minDate: /* @ngInject */ () => new Date(),
+
+      minDateForEndDate: /* @ngInject */ (minDate) =>
+        minDate.setDate(minDate.getDate() + 1),
+
+      disableDate: /* @ngInject */ (purchase) =>
+        purchase.flatMap((elm) => {
+          const nbrDays =
+            (new Date(elm.endDate).getTime() -
+              new Date(elm.startDate).getTime()) /
+            (1000 * 3600 * 24);
+          const array = [];
+          for (let i = 0; i < nbrDays; i += 1) {
+            const date = new Date(elm.startDate);
+            date.setDate(date.getDate() + i);
+            array.push(date);
+          }
+          return array;
+        }),
+
       updateFilterParam: /* @ngInject */ ($state) => (filter) =>
         $state.go(
           'app.account.billing.orders.purchase',
@@ -56,6 +82,26 @@ export default /* @ngInject */ ($stateProvider) => {
       breadcrumb: /* @ngInject */ ($translate) =>
         $translate.instant('purchaseOrders_page_title'),
       hideBreadcrumb: () => false,
+
+      goToPurchaseOrder: /* @ngInject */ ($state, $timeout, Alerter) => (
+        message = false,
+        type = 'success',
+      ) => {
+        const reload = message && type === 'success';
+        const promise = $state.go(
+          'app.account.billing.orders.purchase',
+          {},
+          {
+            reload,
+          },
+        );
+        if (message) {
+          promise.then(() =>
+            $timeout(() => Alerter.set(`alert-${type}`, message)),
+          );
+        }
+        return promise;
+      },
     },
   });
 };

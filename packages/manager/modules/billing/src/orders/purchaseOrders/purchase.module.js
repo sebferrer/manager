@@ -6,6 +6,7 @@ import '@ovh-ux/ui-kit';
 import uiRouter from '@uirouter/angularjs';
 
 import addModule from './add';
+import editModule from './edit';
 import ordersPurchaseService from './billing-orders-purchase.service';
 
 import routing from './purchase.routing';
@@ -20,6 +21,7 @@ angular
     'oui',
     uiRouter,
     addModule,
+    editModule,
   ])
   .config(routing)
   .service('BillingOrdersPurchase', ordersPurchaseService)

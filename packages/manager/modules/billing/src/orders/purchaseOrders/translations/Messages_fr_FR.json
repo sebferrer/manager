@@ -6,9 +6,11 @@
   "purchaseOrders_startDate": "Date de début",
   "purchaseOrders_endDate": "Date de fin",
   "purchaseOrders_status": "Statut",
+  "purchaseOrders_status_CREATED": "Créé",
   "purchaseOrders_status_CREATED_on": "Actif",
   "purchaseOrders_status_CREATED_off": "Inactif",
   "purchaseOrders_status_DELETED": "Supprimé",
   "purchaseOrders_create_reference": "Créer une référence interne",
-  "purchaseOrders_add_reference": "Ajouter une référence interne"
+  "purchaseOrders_add_reference": "Ajouter une référence interne",
+  "purchaseOrders_edit_reference": "Modifier"
 }

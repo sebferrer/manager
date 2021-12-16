@@ -76,12 +76,21 @@
                 data-ng-class="{
                     'oui-badge_error': $value === 'DELETED',
                     'oui-badge_success': $value === 'CREATED' && $row.startDate <= $ctrl.toDay === true && $ctrl.toDay <= $row.endDate === true,
-                    'oui-badge_info': $value === 'CREATED' && ($row.startDate <= $ctrl.toDay === false || $ctrl.toDay <= $row.endDate === false)
+                    'oui-background-g-100': $value === 'CREATED' && ($row.startDate <= $ctrl.toDay === false || $ctrl.toDay <= $row.endDate === false)
                 }"
                 data-ng-bind="$ctrl.getStatus($row)"
             >
             </span>
         </oui-datagrid-column>
-        <oui-datagrid-column> </oui-datagrid-column>
+        <oui-datagrid-column>
+            <oui-action-menu
+                aria-label="{{:: 'purchaseOrders_edit_reference' | translate}}"
+                compact
+            >
+                <oui-action-menu-item on-click="$ctrl.editReference($row)">
+                    {{:: 'purchaseOrders_edit_reference' | translate}}
+                </oui-action-menu-item>
+            </oui-action-menu>
+        </oui-datagrid-column>
     </oui-datagrid>
 </div>
