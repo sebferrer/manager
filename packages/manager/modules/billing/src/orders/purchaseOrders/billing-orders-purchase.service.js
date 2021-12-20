@@ -1,6 +1,6 @@
 import forOwn from 'lodash/forOwn';
 
-export default /* @ngInject */ function BillingOrdersPurchase(
+export default /* @ngInject */ function BillingOrdersPurchaseService(
   $http,
   $q,
   $cacheFactory,
@@ -55,6 +55,13 @@ export default /* @ngInject */ function BillingOrdersPurchase(
       if (cacheInstance) {
         cacheInstance.removeAll();
       }
+    });
+  };
+
+  this.putPurchaseOrder = function putPurchaseOrder(id, data) {
+    return OvhHttp.put(`/me/billing/purchaseOrder/${id}`, {
+      rootPath: 'apiv6',
+      data,
     });
   };
 

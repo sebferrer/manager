@@ -1,4 +1,4 @@
-<div data-ui-view class="billing-purchase">
+<div ui-view class="billing-purchase">
     <div data-ovh-alert></div>
     <oui-header
         heading="{{:: 'purchaseOrders_page_title' | translate }}"
@@ -89,6 +89,11 @@
             >
                 <oui-action-menu-item on-click="$ctrl.editReference($row)">
                     {{:: 'purchaseOrders_edit_reference' | translate}}
+                </oui-action-menu-item>
+                <oui-action-menu-item on-click="$ctrl.editPurchaseStatus($row)">
+                    {{:: $row.status === 'CREATED' ?
+                    'purchaseOrders_status_change_desactivation':'purchaseOrders_status_change_reactivation'
+                    | translate}}
                 </oui-action-menu-item>
             </oui-action-menu>
         </oui-datagrid-column>

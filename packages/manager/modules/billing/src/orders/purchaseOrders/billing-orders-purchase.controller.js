@@ -16,6 +16,9 @@ export default class BillingOrdersPurchaseCtrl {
     purchase,
     atInternet,
     $state,
+    goToModalDesactivatePurchase,
+    BillingOrdersPurchaseService,
+    goToPurchaseOrder,
   ) {
     this.$q = $q;
     this.$log = $log;
@@ -28,6 +31,9 @@ export default class BillingOrdersPurchaseCtrl {
     this.purchase = purchase;
     this.atInternet = atInternet;
     this.$state = $state;
+    this.goToModalDesactivatePurchase = goToModalDesactivatePurchase;
+    this.BillingOrdersPurchaseService = BillingOrdersPurchaseService;
+    this.goToPurchaseOrder = goToPurchaseOrder;
 
     this.toDay = new Date()
       .toISOString()
@@ -82,6 +88,66 @@ export default class BillingOrdersPurchaseCtrl {
 
   editReference(item) {
     this.$state.go('app.account.billing.orders.purchase.edit', item);
+  }
+
+  editPurchaseStatus(purchase) {
+    if (purchase.status === 'CREATED') {
+      this.goToModalDesactivatePurchase(purchase);
+    } else {
+      this.purchaseReActivation(purchase);
+    }
+  }
+
+  purchaseReActivation(purchase) {
+    const data = {
+      status: 'activated',
+    };
+
+    if (purchase.type === 'internalReference') {
+      this.atInternet.trackPage({
+        name: `dedicated::account::billing::reactivate-internal-ref`,
+      });
+    } else {
+      this.atInternet.trackPage({
+        name: `dedicated::account::billing::reactivate-po`,
+      });
+    }
+
+    this.BillingOrdersPurchaseService.putPurchaseOrder(purchase.id, data)
+      .then(() => {
+        if (purchase.type === 'internalReference') {
+          this.atInternet.trackPage({
+            name: `dedicated::account::billing::reactivate-internal-ref_success`,
+          });
+        } else {
+          this.atInternet.trackPage({
+            name: `dedicated::account::billing::reactivate-po_success`,
+          });
+        }
+        this.goToPurchaseOrder(
+          this.$translate.instant(
+            `purchaseOrders_confirmation_reactivation_${purchase.type}_success`,
+          ),
+          'success',
+        );
+      })
+      .catch(() => {
+        if (purchase.type === 'internalReference') {
+          this.atInternet.trackPage({
+            name: `dedicated::account::billing::reactivate-internal-ref_error`,
+          });
+        } else {
+          this.atInternet.trackPage({
+            name: `dedicated::account::billing::reactivate-po_error`,
+          });
+        }
+        this.goToPurchaseOrder(
+          this.$translate.instant(
+            'purchaseOrders_confirmation_reactivation_error',
+          ),
+          'danger',
+        );
+      });
   }
 
   getStatus($row) {

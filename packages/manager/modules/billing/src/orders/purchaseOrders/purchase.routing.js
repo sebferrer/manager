@@ -102,6 +102,13 @@ export default /* @ngInject */ ($stateProvider) => {
         }
         return promise;
       },
+
+      goToModalDesactivatePurchase: /* @ngInject */ ($state) => (purchase) => {
+        $state.go(
+          'app.account.billing.orders.purchase.update-purchase-status',
+          { purchase },
+        );
+      },
     },
   });
 };
