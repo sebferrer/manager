@@ -6,7 +6,7 @@ import '@ovh-ux/ui-kit';
 import uiRouter from '@uirouter/angularjs';
 
 import billingOrders from './orders/orders.module';
-import billingOrdersPurchase from './purchaseOrders/purchase.module';
+import billingOrdersPurchases from './purchaseOrders/billing-orders-purchases.module';
 
 import routing from './orders-main.routing';
 
@@ -20,7 +20,7 @@ angular
     'oui',
     uiRouter,
     billingOrders,
-    billingOrdersPurchase,
+    billingOrdersPurchases,
   ])
   .config(routing)
   .run(/* @ngTranslationsInject:json ./translations */);

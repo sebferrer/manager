@@ -2,48 +2,58 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import set from 'lodash/set';
 
-export default class BillingOrdersPurchaseCtrl {
+export default class billingOrdersPurchasesCtrl {
   /* @ngInject */
   constructor(
-    $q,
     $log,
     $translate,
-    OvhApiMe,
-    schema,
+    atInternet,
+    billingOrdersPurchasesService,
     criteria,
     filter,
-    updateFilterParam,
-    purchase,
-    atInternet,
-    $state,
+    goToEditPurchase,
     goToModalDesactivatePurchase,
-    BillingOrdersPurchaseService,
+    goToNewPurchase,
     goToPurchaseOrder,
+    purchases,
+    updateFilterParam,
+    schema,
   ) {
-    this.$q = $q;
     this.$log = $log;
     this.$translate = $translate;
-    this.OvhApiMe = OvhApiMe;
-    this.schema = schema;
+    this.atInternet = atInternet;
+    this.billingOrdersPurchasesService = billingOrdersPurchasesService;
     this.criteria = criteria || [];
     this.filter = filter;
-    this.updateFilterParam = updateFilterParam;
-    this.purchase = purchase;
-    this.atInternet = atInternet;
-    this.$state = $state;
+    this.goToEditPurchase = goToEditPurchase;
     this.goToModalDesactivatePurchase = goToModalDesactivatePurchase;
-    this.BillingOrdersPurchaseService = BillingOrdersPurchaseService;
+    this.goToNewPurchase = goToNewPurchase;
     this.goToPurchaseOrder = goToPurchaseOrder;
-
-    this.toDay = new Date()
-      .toISOString()
-      .slice(0, new Date().toISOString().indexOf('T'));
+    this.purchases = purchases;
+    this.schema = schema;
+    this.updateFilterParam = updateFilterParam;
   }
 
   $onInit() {
     this.atInternet.trackPage({
       name: `dedicated::account::billing::orders-internal-ref`,
     });
+
+    this.toDay = new Date()
+      .toISOString()
+      .slice(0, new Date().toISOString().indexOf('T'));
+  }
+
+  editPurchase(purchase) {
+    this.goToEditPurchase(purchase);
+  }
+
+  editPurchaseStatus(purchase) {
+    if (purchase.status === 'CREATED') {
+      this.goToModalDesactivatePurchase(purchase);
+    } else {
+      this.purchaseReActivation(purchase);
+    }
   }
 
   getStateEnumFilter() {
@@ -66,6 +76,33 @@ export default class BillingOrdersPurchaseCtrl {
     return filter;
   }
 
+  getStatus($row) {
+    let status = '';
+    if (
+      $row.status === 'CREATED' &&
+      $row.startDate <= this.toDay &&
+      this.toDay <= $row.endDate
+    ) {
+      status = this.$translate.instant('purchaseOrders_status_CREATED_on');
+    } else if (
+      $row.status === 'CREATED' &&
+      !($row.startDate <= this.toDay && this.toDay <= $row.endDate)
+    ) {
+      status = this.$translate.instant('purchaseOrders_status_CREATED_off');
+    } else {
+      status = this.$translate.instant('purchaseOrders_status_DELETED');
+    }
+    return status;
+  }
+
+  newPurchase() {
+    this.atInternet.trackClick({
+      name: `dedicated::account::billing::create-internal-ref`,
+      type: 'action',
+    });
+    this.goToNewPurchase();
+  }
+
   onCriteriaChange(criteria) {
     this.criteria = criteria;
     try {
@@ -75,26 +112,6 @@ export default class BillingOrdersPurchaseCtrl {
       this.updateFilterParam(this.filter);
     } catch (err) {
       this.$log.error(err);
-    }
-  }
-
-  addReference() {
-    this.atInternet.trackClick({
-      name: `dedicated::account::billing::create-internal-ref`,
-      type: 'action',
-    });
-    this.$state.go('app.account.billing.orders.purchase.add');
-  }
-
-  editReference(item) {
-    this.$state.go('app.account.billing.orders.purchase.edit', item);
-  }
-
-  editPurchaseStatus(purchase) {
-    if (purchase.status === 'CREATED') {
-      this.goToModalDesactivatePurchase(purchase);
-    } else {
-      this.purchaseReActivation(purchase);
     }
   }
 
@@ -113,7 +130,7 @@ export default class BillingOrdersPurchaseCtrl {
       });
     }
 
-    this.BillingOrdersPurchaseService.putPurchaseOrder(purchase.id, data)
+    this.BillingOrdersPurchasesService.putPurchaseOrder(purchase.id, data)
       .then(() => {
         if (purchase.type === 'internalReference') {
           this.atInternet.trackPage({
@@ -148,24 +165,5 @@ export default class BillingOrdersPurchaseCtrl {
           'danger',
         );
       });
-  }
-
-  getStatus($row) {
-    let status = '';
-    if (
-      $row.status === 'CREATED' &&
-      $row.startDate <= this.toDay &&
-      this.toDay <= $row.endDate
-    ) {
-      status = this.$translate.instant('purchaseOrders_status_CREATED_on');
-    } else if (
-      $row.status === 'CREATED' &&
-      !($row.startDate <= this.toDay && this.toDay <= $row.endDate)
-    ) {
-      status = this.$translate.instant('purchaseOrders_status_CREATED_off');
-    } else {
-      status = this.$translate.instant('purchaseOrders_status_DELETED');
-    }
-    return status;
   }
 }

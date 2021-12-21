@@ -1,6 +1,6 @@
 export default /* @ngInject */ ($stateProvider) => {
   $stateProvider.state(
-    'app.account.billing.orders.purchase.update-purchase-status',
+    'app.account.billing.orders.purchases.update-purchase-status',
     {
       url: '/update-purchase-status',
       params: {

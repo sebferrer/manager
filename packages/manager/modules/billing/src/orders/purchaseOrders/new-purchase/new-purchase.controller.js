@@ -1,35 +1,15 @@
 export default class BillingOrdersPurchaseAddCtrl {
   /* @ngInject */
-  constructor(
-    $translate,
-    $state,
-    atInternet,
-    purchase,
-    BillingOrdersPurchaseAdd,
-    goToPurchaseOrder,
-    $locale,
-    dateFormat,
-    minDate,
-    minDateForEndDate,
-    disableDate,
-  ) {
+  constructor($translate, atInternet, newPurchaseService) {
     this.$translate = $translate;
-    this.$state = $state;
     this.atInternet = atInternet;
-    this.purchase = purchase;
-    this.BillingOrdersPurchaseAdd = BillingOrdersPurchaseAdd;
-    this.goToPurchaseOrder = goToPurchaseOrder;
-    this.$locale = $locale;
-    this.dateFormat = dateFormat;
-    this.minDate = minDate;
-    this.minDateForEndDate = minDateForEndDate;
-    this.disableDate = disableDate;
+    this.newPurchaseService = newPurchaseService;
 
     this.model = {
-      radioSelection: 'internal_reference',
+      inputEndDate: '',
       inputReference: '',
       inputStartDate: '',
-      inputEndDate: '',
+      radioSelection: 'internal_reference',
     };
   }
 
@@ -45,7 +25,7 @@ export default class BillingOrdersPurchaseAddCtrl {
         type: 'action',
       });
     }
-    this.$state.go('app.account.billing.orders.purchase');
+    this.goToPurchaseOrder();
   }
 
   OnChangeMinDateForEndDate(selectedDates, dateStr) {
@@ -67,12 +47,13 @@ export default class BillingOrdersPurchaseAddCtrl {
     }
 
     const data = {
+      endDate: this.model.inputEndDate,
       reference: this.model.inputReference,
       startDate: this.model.inputStartDate,
-      endDate: this.model.inputEndDate,
     };
 
-    this.BillingOrdersPurchaseAdd.postPurchaseOrder(data)
+    this.newPurchaseService
+      .postPurchaseOrder(data)
       .then(() => {
         if (this.model.radioSelection === 'internal_reference') {
           this.atInternet.trackPage({

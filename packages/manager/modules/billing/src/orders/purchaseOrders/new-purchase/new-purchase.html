@@ -2,7 +2,7 @@
     <oui-header
         heading="{{:: 'purchaseOrders_add_page_title' | translate }}"
     ></oui-header>
-    <form novalidate name="form_add">
+    <form novalidate name="newPurchaseForm">
         <oui-field size="m">
             <oui-radio-group
                 direction="column"
@@ -93,6 +93,7 @@
             cancel-text="{{:: 'purchaseOrders_form_add_purchase_cancel' | translate }}"
             on-submit="$ctrl.onSubmitAdd()"
             on-cancel="$ctrl.onCancelAdd()"
+            disabled="newPurchaseForm.$invalid"
         >
         </oui-form-actions>
     </form>

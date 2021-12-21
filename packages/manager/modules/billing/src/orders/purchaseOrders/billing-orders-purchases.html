@@ -1,4 +1,4 @@
-<div ui-view class="billing-purchase">
+<div ui-view>
     <div data-ovh-alert></div>
     <oui-header
         heading="{{:: 'purchaseOrders_page_title' | translate }}"
@@ -7,7 +7,7 @@
     </oui-header>
     <oui-datagrid
         data-page-size="10"
-        data-rows="$ctrl.purchase"
+        data-rows="$ctrl.purchases"
         data-row-loader="$ctrl.loadRow($row)"
         data-criteria=":: $ctrl.criteria"
         data-on-criteria-change=":: $ctrl.onCriteriaChange($criteria)"
@@ -15,14 +15,14 @@
         <oui-datagrid-topbar>
             <button
                 class="oui-button oui-button_secondary oui-button_icon-left"
-                data-ng-click="$ctrl.addReference()"
+                data-ng-click="$ctrl.newPurchase()"
             >
                 <span
                     class="oui-icon oui-icon-add"
-                    data-ng-if="$ctrl.purchase.length > 0"
+                    data-ng-if="$ctrl.purchases.length > 0"
                     aria-hidden="true"
                 ></span>
-                {{:: $ctrl.purchase.length > 0 ?
+                {{:: $ctrl.purchases.length > 0 ?
                 'purchaseOrders_add_reference':'purchaseOrders_create_reference'|
                 translate }}
             </button>
@@ -87,7 +87,7 @@
                 aria-label="{{:: 'purchaseOrders_edit_reference' | translate}}"
                 compact
             >
-                <oui-action-menu-item on-click="$ctrl.editReference($row)">
+                <oui-action-menu-item on-click="$ctrl.editPurchase($row)">
                     {{:: 'purchaseOrders_edit_reference' | translate}}
                 </oui-action-menu-item>
                 <oui-action-menu-item on-click="$ctrl.editPurchaseStatus($row)">

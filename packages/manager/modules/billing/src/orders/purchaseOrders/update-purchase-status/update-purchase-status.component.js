@@ -3,8 +3,8 @@ import template from './update-purchase-status.html';
 
 export default {
   bindings: {
-    purchase: '<',
     goToPurchaseOrder: '<',
+    purchase: '<',
   },
   controller,
   template,

@@ -4,14 +4,14 @@ import ngAtInternet from '@ovh-ux/ng-at-internet';
 import ngTranslateAsyncLoader from '@ovh-ux/ng-translate-async-loader';
 import '@ovh-ux/ui-kit';
 
-import addModule from './add';
-import editModule from './edit';
+import editPurchaseModule from './edit-purchase';
+import newPurchaseModule from './new-purchase';
+import ordersPurchasesService from './billing-orders-purchases.service';
 import updatePurchaseStatusModule from './update-purchase-status';
-import ordersPurchaseService from './billing-orders-purchase.service';
 
-import routing from './purchase.routing';
+import routing from './billing-orders-purchases.routing';
 
-const moduleName = 'ovhManagerBillingOrdersPurchase';
+const moduleName = 'ovhManagerBillingOrdersPurchases';
 
 angular
   .module(moduleName, [
@@ -20,12 +20,12 @@ angular
     ngTranslateAsyncLoader,
     'oui',
     'ui.router',
-    addModule,
-    editModule,
+    editPurchaseModule,
+    newPurchaseModule,
     updatePurchaseStatusModule,
   ])
   .config(routing)
-  .service('BillingOrdersPurchaseService', ordersPurchaseService)
+  .service('billingOrdersPurchasesService', ordersPurchasesService)
   .run(/* @ngTranslationsInject:json ./translations */);
 
 export default moduleName;

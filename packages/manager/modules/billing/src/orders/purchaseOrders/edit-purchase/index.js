@@ -2,18 +2,17 @@ import angular from 'angular';
 import '@uirouter/angularjs';
 import 'oclazyload';
 
-const moduleName =
-  'ovhManagerBillingOrdersPurchasesUpdatePurchaseStatusLazyloading';
+const moduleName = 'ovhManagerBillingOrdersPurchaseEditLazyloading';
 
 angular.module(moduleName, ['ui.router', 'oc.lazyLoad']).config(
   /* @ngInject */ ($stateProvider) => {
     $stateProvider.state(
-      'app.account.billing.orders.purchases.update-purchase-status.**',
+      'app.account.billing.orders.purchases.edit-purchase.**',
       {
-        url: '/update-purchase-status',
+        url: '/edit-purchase',
         lazyLoad: ($transition$) => {
           const $ocLazyLoad = $transition$.injector().get('$ocLazyLoad');
-          return import('./update-purchase-status.module').then((mod) =>
+          return import('./edit-purchase.module').then((mod) =>
             $ocLazyLoad.inject(mod.default || mod),
           );
         },

@@ -6,11 +6,11 @@ import 'angular-translate';
 import '@ovh-ux/ui-kit';
 import ngAtInternet from '@ovh-ux/ng-at-internet';
 
-import component from './update-purchase-status.component';
-import routing from './update-purchase-status.routing';
-import service from './update-purchase-status.service';
+import component from './new-purchase.component';
+import routing from './new-purchase.routing';
+import service from './new-purchase.service';
 
-const moduleName = 'ovhManagerBillingOrdersPurchaseUpdatePurchaseStatus';
+const moduleName = 'ovhManagerBillingOrdersPurchaseNew';
 angular
   .module(moduleName, [
     'ui.router',
@@ -18,8 +18,8 @@ angular
     'ngTranslateAsyncLoader',
     ngAtInternet,
   ])
-  .component('updatePurchaseStatus', component)
-  .service('updatePurchaseStatusService', service)
+  .component('newPurchase', component)
+  .service('newPurchaseService', service)
   .config(routing)
   .run(/* @ngTranslationsInject:json ./translations */);
 

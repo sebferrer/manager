@@ -1,39 +1,17 @@
 export default class BillingOrdersPurchaseEditCtrl {
   /* @ngInject */
-  constructor(
-    $translate,
-    $state,
-    atInternet,
-    purchase,
-    BillingOrdersPurchaseEdit,
-    goToPurchaseOrder,
-    item,
-    $locale,
-    dateFormat,
-    disableDate,
-    minDate,
-    minDateForEndDate,
-  ) {
+  constructor($translate, atInternet, editPurchaseService) {
     this.$translate = $translate;
-    this.$state = $state;
     this.atInternet = atInternet;
-    this.purchase = purchase;
-    this.BillingOrdersPurchaseEdit = BillingOrdersPurchaseEdit;
-    this.goToPurchaseOrder = goToPurchaseOrder;
-    this.item = item;
-    this.$locale = $locale;
-    this.dateFormat = dateFormat;
-    this.disableDate = disableDate;
-    this.minDate = minDate;
-    this.minDateForEndDate = minDateForEndDate;
+    this.editPurchaseService = editPurchaseService;
+  }
 
-    this.purchase = this.purchase.find((elm) => elm.id === Number(this.item));
-
+  $onInit() {
     this.model = {
-      radioSelection: 'internal_reference',
+      inputEndDate: new Date(this.purchase.endDate),
       inputReference: this.purchase.reference,
       inputStartDate: new Date(this.purchase.startDate),
-      inputEndDate: new Date(this.purchase.endDate),
+      radioSelection: 'internal_reference',
     };
   }
 
@@ -49,7 +27,7 @@ export default class BillingOrdersPurchaseEditCtrl {
         type: 'action',
       });
     }
-    this.$state.go('app.account.billing.orders.purchase');
+    this.goToPurchaseOrder();
   }
 
   OnChangeMinDateForEndDate(selectedDates, dateStr) {
@@ -71,12 +49,13 @@ export default class BillingOrdersPurchaseEditCtrl {
     }
 
     const data = {
+      endDate: this.model.inputEndDate,
       reference: this.model.inputReference,
       startDate: this.model.inputStartDate,
-      endDate: this.model.inputEndDate,
     };
 
-    this.BillingOrdersPurchaseEdit.putPurchaseOrder(this.item, data)
+    this.editPurchaseService
+      .putPurchaseOrder(this.purchase.id, data)
       .then(() => {
         if (this.model.radioSelection === 'internal_reference') {
           this.atInternet.trackPage({

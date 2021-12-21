@@ -20,9 +20,9 @@ import history from './main/history/history.module';
 import paymentCreditAdd from './payment/credits/add/add-credits.module';
 import messageParser from './common/messageParser';
 import order from './order/billing-order-tracking.module';
-import ordersMain from './orders/orders-main.module';
 import orders from './orders/orders/orders.module';
-import ordersPurchase from './orders/purchaseOrders/purchase.module';
+import ordersMain from './orders/orders-main.module';
+import ordersPurchases from './orders/purchaseOrders/billing-orders-purchases.module';
 import ovhAccountRefund from './payment/ovhAccount/refund';
 import refunds from './main/refunds/refunds.module';
 import sla from './sla/sla.module';
@@ -54,7 +54,7 @@ angular
     order,
     ordersMain,
     orders,
-    ordersPurchase,
+    ordersPurchases,
     ovhAccountRefund,
     refunds,
     ngOvhExportCsv,
