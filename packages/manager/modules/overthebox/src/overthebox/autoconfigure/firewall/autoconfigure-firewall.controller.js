@@ -280,11 +280,14 @@ export default class OverTheBoxAutoconfigureFirewall {
         return response;
       })
       .catch((error) => {
+        const errorMessage = error.data.class
+          ? `${error.data.message} - ${error.data.class}`
+          : error.data.message;
         // Display error message
         this.errorMessage = this.$translate.instant(
           'overTheBox_autoconfigure_create_failed',
           {
-            errorMessage: error.data.message,
+            errorMessage,
           },
         );
       });
