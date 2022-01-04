@@ -24,6 +24,8 @@ export default /* @ngInject */
   goToFirewall,
   goToGameFirewall,
   goToOrganisation,
+  goToAgoraOrder,
+  goToByoipConfiguration,
   Ip,
   ipFeatureAvailability,
   IpFirewall,
@@ -101,6 +103,8 @@ export default /* @ngInject */
     ipFeatureAvailability.allowIPFailoverOrder() && orderIpAvailable;
   $scope.canOrderAgoraIPFO = () =>
     ipFeatureAvailability.allowIPFailoverAgoraOrder() && orderIpAvailable;
+  $scope.goToAgoraOrder = goToAgoraOrder;
+  $scope.goToByoipConfiguration = goToByoipConfiguration;
 
   $scope.singleService = () =>
     $scope.serviceName !== '_ALL' && $scope.serviceName !== 'FAILOVER';
