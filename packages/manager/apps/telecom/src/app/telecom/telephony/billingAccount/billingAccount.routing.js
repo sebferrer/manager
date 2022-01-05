@@ -100,12 +100,6 @@ export default /* @ngInject */ ($stateProvider) => {
         $state.href('telecom.telephony.billingAccount.billing.deposit', {
           billingAccount: billingAccountId,
         }),
-      serviceInformation: /* @ngInject */ (
-        billingAccountId,
-        tucVoipBillingAccount,
-      ) => tucVoipBillingAccount.fetchServiceInfo(billingAccountId),
-      isBillingContact: /* @ngInject */ (coreConfig, serviceInformation) =>
-        serviceInformation.contactBilling === coreConfig.getUser().nichandle,
       breadcrumb: /* @ngInject */ (billingAccount) => billingAccount,
 
       svaWalletLink: /* @ngInject */ ($state, billingAccount) =>
