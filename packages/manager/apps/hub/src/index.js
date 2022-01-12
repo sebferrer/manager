@@ -9,7 +9,6 @@ import {
   displayMessage,
 } from '@ovh-ux/manager-preloader';
 
-import { buildURL } from '@ovh-ux/ufrontend';
 import { findAvailableLocale, detectUserLocale } from '@ovh-ux/manager-config';
 import { BILLING_REDIRECTIONS } from './constants';
 
@@ -35,8 +34,8 @@ useShellClient('hub')
       const hash = window.location.hash.replace('#', '');
       if (redirectionRegex.test(hash)) {
         window.location.assign(
-          buildURL(
-            environment.getApplicationURL('dedicated'),
+          getShellClient().navigation.navigateTo(
+            'dedicated',
             window.location.hash,
           ),
         );
