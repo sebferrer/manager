@@ -448,6 +448,71 @@ import union from 'lodash/union';
        * Get available offers
        * @param {string} domain
        */
+      getAvailablePlanDetach(serviceId) {
+        return this.$http
+          .get(`/services/${serviceId}/detach`)
+          .then(({ data }) => data);
+      }
+
+      /**
+       * Get available offers
+       * @param {string} domain
+       */
+      simulateEstimate(serviceId, planCode) {
+        return this.$http
+          .post(`/services/${serviceId}/detach/${planCode}/simulate`, {
+            addons: [
+              {
+                duration: 'P12M',
+                planCode,
+                pricingMode: 'default',
+                quantity: 1,
+                serviceId,
+              },
+            ],
+            duration: 'P12M',
+            pricingMode: 'default',
+            quantity: 1,
+          })
+          .then(({ data }) => {
+            const durationsTab = [];
+            const details = angular.copy(data.order);
+            details.duration = 'P12M';
+            durationsTab.push(details);
+
+            return durationsTab;
+          });
+      }
+
+      /**
+       * Get available offers
+       * @param {string} domain
+       */
+      executeDetach(serviceId, planCode) {
+        return this.$http
+          .post(`/services/${serviceId}/detach/${planCode}/execute`, {
+            addons: [
+              {
+                duration: 'P12M',
+                planCode,
+                pricingMode: 'default',
+                quantity: 1,
+                serviceId,
+              },
+            ],
+            duration: 'P12M',
+            pricingMode: 'default',
+            quantity: 1,
+          })
+          .then(({ data }) => {
+            return data.order;
+          });
+      }
+
+      /**
+       * Get available offers
+       * @param {string} domain
+       */
       getAvailableOffer(domain) {
         return this.getServiceInfos(domain)
           .then(({ serviceId }) => {

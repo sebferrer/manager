@@ -1,5 +1,3 @@
-import get from 'lodash/get';
-
 angular.module('App').controller(
   'HostingUpgradeOfferCtrl',
   class HostingUpgradeOfferCtrl {
@@ -31,6 +29,7 @@ angular.module('App').controller(
 
     $onInit() {
       this.productId = this.$stateParams.productId;
+      this.serviceId = null;
 
       this.availableOffers = [];
       this.durations = null;
@@ -54,14 +53,16 @@ angular.module('App').controller(
       this.Hosting.getSelected(this.productId)
         .then((hosting) => {
           this.hosting = hosting;
-          return this.Hosting.getAvailableOffer(this.productId);
+          return this.Hosting.getServiceInfos(this.productId);
+        })
+        .then(({ serviceId }) => {
+          this.serviceId = serviceId;
+          return this.Hosting.getAvailablePlanDetach(serviceId);
         })
         .then((availableOffers) => {
           this.availableOffers = availableOffers.map((offer) => ({
-            name: this.$translate.instant(
-              `hosting_dashboard_service_offer_${offer}`,
-            ),
-            value: offer,
+            name: offer.planCode,
+            value: offer.planCode,
           }));
         })
         .catch(() => {
@@ -79,10 +80,7 @@ angular.module('App').controller(
       };
       this.loading.durations = true;
 
-      return this.Hosting.getUpgradePrices(
-        get(this.hosting, 'serviceName', this.$stateParams.productId),
-        this.model.offer.value,
-      )
+      return this.Hosting.simulateEstimate(this.serviceId, 'perso2014')
         .then((durations) => {
           this.durations.available = durations;
           if (durations.length === 1) {
@@ -132,17 +130,9 @@ angular.module('App').controller(
       win.referrer = null;
       win.opener = null;
 
-      const startTime = moment(this.model.startTime, 'HH:mm:ss')
-        .utc()
-        .format('HH:mm:ss');
-
-      return this.Hosting.orderUpgrade(
-        get(this.hosting, 'serviceName', this.$stateParams.productId),
-        this.model.offer.value,
-        this.model.duration.duration,
-        this.hosting.isCloudWeb ? startTime : null,
-      )
+      return this.Hosting.executeDetach(this.serviceId, 'perso2014')
         .then((order) => {
+          console.log(order);
           this.Alerter.success(
             this.$translate.instant('hosting_order_upgrade_success', {
               t0: order.url,
