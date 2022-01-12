@@ -6,6 +6,7 @@ import { detach as detachPreloader } from '@ovh-ux/manager-preloader';
 import '@ovh-ux/ng-ui-router-layout';
 import '@ovh-ux/ng-ui-router-line-progress';
 import '@ovh-ux/ng-ui-router-breadcrumb';
+import ovhManagerFilters from '@ovh-ux/manager-filters';
 import ovhManagerNetApp from '@ovh-ux/manager-netapp';
 
 import 'script-loader!moment/min/moment.min.js'; // eslint-disable-line
@@ -27,6 +28,7 @@ export default (containerEl, environment) => {
         'ngUiRouterBreadcrumb',
         'ui.router',
         errorPage,
+        ovhManagerFilters,
         ovhManagerNetApp,
         ...get(__NG_APP_INJECTIONS__, environment.getRegion(), []),
       ].filter(isString),
