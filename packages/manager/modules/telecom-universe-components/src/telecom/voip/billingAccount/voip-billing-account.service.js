@@ -1,5 +1,3 @@
-import filter from 'lodash/filter';
-import has from 'lodash/has';
 import map from 'lodash/map';
 
 /**
@@ -14,9 +12,9 @@ import map from 'lodash/map';
  */
 export default class {
   /* @ngInject */
-  constructor($http, OvhApiTelephony, TucVoipBillingAccount) {
+  constructor($http, iceberg, TucVoipBillingAccount) {
     this.$http = $http;
-    this.OvhApiTelephony = OvhApiTelephony;
+    this.iceberg = iceberg;
     this.TucVoipBillingAccount = TucVoipBillingAccount;
   }
 
@@ -34,28 +32,19 @@ export default class {
    *
    *  @return {Promise} That return an Array of TucVoipBillingAccount instances.
    */
-  fetchAll(withError = true) {
-    return this.OvhApiTelephony.v7()
+  fetchAll() {
+    return this.iceberg('/telephony')
       .query()
-      .expand()
-      .execute()
-      .$promise.then((result) =>
-        map(
-          filter(
-            result,
-            (res) => has(res, 'value') || (withError && has(res, 'error')),
-          ),
-          (res) => {
-            if (res.value && res.value.billingAccount) {
-              return new this.TucVoipBillingAccount(res.value);
-            }
-            return new this.TucVoipBillingAccount({
-              billingAccount: res.key,
-              error: res.error,
-            });
-          },
-        ),
-      );
+      .expand('CachedObjectList-Pages')
+      .execute(null, true)
+      .$promise.then(({ data: result }) => {
+        return map(result, (res) => {
+          if (res.billingAccount) {
+            return new this.TucVoipBillingAccount(res);
+          }
+          return null;
+        });
+      });
   }
 
   /**
