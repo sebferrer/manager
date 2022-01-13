@@ -244,7 +244,7 @@ export default /* @ngInject */ ($stateProvider, coreConfigProvider) => {
       serviceId: /* @ngInject */ ($transition$) =>
         $transition$.params().serviceId,
       service: /* @ngInject */ (BillingAutoRenew, serviceId) =>
-        BillingAutoRenew.getService(serviceId),
+        BillingAutoRenew.findService({ serviceId }),
       breadcrumb: /* @ngInject */ (serviceId) => serviceId,
     },
   });

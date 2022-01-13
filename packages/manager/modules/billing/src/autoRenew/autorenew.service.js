@@ -79,16 +79,12 @@ export default class {
     });
   }
 
-  /**
-   * add optional serviceType parameter to filter service result
-   * (some services might have the same serviceId but a different
-   *  serviceType : domain and email-domain)
-   */
-  getService(serviceId, serviceType) {
+  findService({ resourceName, serviceType, serviceId }) {
     return this.OvhHttp.get('/billing/services', {
       rootPath: '2api',
       params: {
-        search: serviceId,
+        resourceName,
+        serviceId,
         serviceType,
         count: 1,
         offset: 0,
