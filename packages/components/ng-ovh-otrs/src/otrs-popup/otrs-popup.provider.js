@@ -1,12 +1,10 @@
-import angular from 'angular';
-
 export default function() {
   const self = this;
-  let baseUrlTickets = null;
+  let baseUrlTicketsPromise = null;
 
-  self.setBaseUrlTickets = (url) => {
-    if (angular.isDefined(url) && angular.isString(url)) {
-      baseUrlTickets = url;
+  self.setBaseUrlTickets = (urlOrPromise) => {
+    if (urlOrPromise) {
+      baseUrlTicketsPromise = Promise.resolve(urlOrPromise);
     } else {
       throw new Error('An URL must be specified.');
     }
@@ -14,7 +12,7 @@ export default function() {
 
   self.$get = () => ({
     getBaseUrlTickets() {
-      return baseUrlTickets;
+      return baseUrlTicketsPromise;
     },
   });
 }

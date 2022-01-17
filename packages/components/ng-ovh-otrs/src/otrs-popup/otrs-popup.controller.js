@@ -367,7 +367,7 @@ export default /* @ngInject */ function(
     }
   };
 
-  this.$onInit = () => {
+  this.$onInit = async () => {
     initFields();
 
     self.alert = {
@@ -380,7 +380,7 @@ export default /* @ngInject */ function(
     self.formDetails = 'start';
     self.interventionEnum = OTRS_POPUP_INTERVENTION_ENUM;
 
-    self.baseUrlTickets = OtrsPopup.getBaseUrlTickets();
+    self.baseUrlTickets = await OtrsPopup.getBaseUrlTickets();
 
     if (isEmpty(self.baseUrlTickets)) {
       throw new Error('A baseUrlTickets must be specified.');
