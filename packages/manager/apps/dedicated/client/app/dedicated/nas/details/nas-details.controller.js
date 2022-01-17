@@ -1,5 +1,7 @@
 import indexOf from 'lodash/indexOf';
 
+import { getShellClient } from '../../../shell';
+
 angular.module('App').controller(
   'NasDetailsCtrl',
   class NasDetailsCtrl {
@@ -83,8 +85,8 @@ angular.module('App').controller(
     /**
      *  Load NAS
      */
-    $onInit() {
-      this.redirectToCloud = this.coreURLBuilder.buildURL(
+    async $onInit() {
+      this.redirectToCloud = await getShellClient().navigation.getURL(
         'dedicated',
         '#/paas/nasha/:nashaId/partitions',
         { nashaId: this.nasData.nas.serviceName },

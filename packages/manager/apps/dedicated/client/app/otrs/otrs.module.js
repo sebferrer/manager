@@ -5,6 +5,8 @@ import routing from './otrs.routes';
 import service from './otrs.service';
 import htmlStringLinkyFilter from './filter/html-string-linky.filter';
 
+import { getShellClient } from '../shell';
+
 const moduleName = 'ovhManagerOtrs';
 
 angular
@@ -19,9 +21,9 @@ angular
     'ui.router',
   ])
   .config(
-    /* @ngInject */ (OtrsPopupProvider, coreURLBuilderProvider) => {
+    /* @ngInject */ (OtrsPopupProvider) => {
       OtrsPopupProvider.setBaseUrlTickets(
-        coreURLBuilderProvider.buildURL('dedicated', '#/ticket'),
+        getShellClient().navigation.getURL('dedicated', '#/ticket'),
       );
     },
   )

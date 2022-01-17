@@ -1,15 +1,19 @@
-export default /* @ngInject */ function UserAccountEmailsController(
+import { getShellClient } from '../../../shell';
+
+export default /* @ngInject */ async function UserAccountEmailsController(
   $q,
   $location,
   $scope,
   $translate,
   AccountUserEmailsService,
   Alerter,
-  coreURLBuilder,
 ) {
   const self = this;
 
-  $scope.SUPPORT_URL = coreURLBuilder.buildURL('dedicated', '#/support');
+  $scope.SUPPORT_URL = await getShellClient().navigation.getURL(
+    'dedicated',
+    '#/support',
+  );
 
   $scope.itemsPerPage = 10;
   $scope.currentPage =

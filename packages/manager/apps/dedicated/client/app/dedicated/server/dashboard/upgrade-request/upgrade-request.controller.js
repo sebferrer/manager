@@ -1,6 +1,8 @@
 import get from 'lodash/get';
 import { ISSUE_TYPE_ID, UPGRADE_TRACKING_PREFIX } from './upgrade.constants';
 
+import { getShellClient } from '../../../../shell';
+
 export default class DedicatedUpgradeController {
   /* @ngInject */
   constructor($translate, OvhApiSupport, atInternet, Alerter, coreURLBuilder) {
@@ -40,18 +42,21 @@ export default class DedicatedUpgradeController {
         ),
         body: this.issueTypeDescription,
       })
-      .$promise.then(({ ticketId }) => {
+      .$promise.then(({ ticketId }) =>
+        getShellClient().navigation.getURL(
+          'dedicated',
+          '#/support/tickets/:ticketId',
+          {
+            ticketId,
+          },
+        ),
+      )
+      .then((ticketUrl) => {
         this.Alerter.success(
           this.$translate.instant(
             `dedicated_server_dashboard_upgrade_success_message_${this.selectedUpgrade}`,
             {
-              ticketUrl: this.coreURLBuilder.buildURL(
-                'dedicated',
-                '#/support/tickets/:ticketId',
-                {
-                  ticketId,
-                },
-              ),
+              ticketUrl,
             },
           ),
           'server_dashboard_alert',

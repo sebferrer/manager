@@ -18,6 +18,8 @@ import {
   RTM_INSTALL_FEATURE,
 } from './dedicated-server-installation-ovh.constants';
 
+import { getShellClient } from '../../../../shell';
+
 angular
   .module('App')
   .constant('TEMPLATE_OS_HARDWARE_RAID_ENUM', {
@@ -43,13 +45,7 @@ angular
       Alerter,
       ovhFeatureFlipping,
       TEMPLATE_OS_HARDWARE_RAID_ENUM,
-      coreURLBuilder,
     ) => {
-      $scope.LICENSE_URL = coreURLBuilder.buildURL(
-        'dedicated',
-        '#/configuration/license',
-      );
-
       $scope.units = {
         model: [
           {
@@ -349,12 +345,18 @@ angular
               RTM_INSTALL_FEATURE,
             );
           });
+        const getLicenseUrl = getShellClient()
+          .navigation.getURL('dedicated', '#/configuration/license')
+          .then((licenceUrl) => {
+            $scope.LICENSE_URL = licenceUrl;
+          });
 
         $q.all([
           getHardRaid,
           getOvhTemplates,
           getSshKeys,
           getRtmInstallAvailability,
+          getLicenseUrl,
         ]).finally(() => {
           $scope.loader.loading = false;
         });

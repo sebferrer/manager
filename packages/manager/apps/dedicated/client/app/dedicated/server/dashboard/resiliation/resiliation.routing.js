@@ -1,6 +1,8 @@
 import { BillingService as Service } from '@ovh-ux/manager-models';
 import set from 'lodash/set';
 
+import { getShellClient } from '../../../../shell';
+
 export default /* @ngInject */ ($stateProvider) => {
   $stateProvider.state('app.dedicated-server.server.dashboard.resiliation', {
     url: '/resiliation',
@@ -72,14 +74,14 @@ export default /* @ngInject */ ($stateProvider) => {
         coreURLBuilder,
         serviceName,
       ) => () => {
-        set(
-          $window.location,
-          'href',
-          coreURLBuilder.buildURL(
+        return getShellClient()
+          .navigation.getURL(
             'dedicated',
             `#/billing/autorenew/delete?serviceId=${serviceName}`,
-          ),
-        );
+          )
+          .then((deleteUrl) => {
+            set($window.location, 'href', deleteUrl);
+          });
       },
       serviceId: /* @ngInject */ (serviceInfos) => serviceInfos.serviceId,
       serviceName: /* @ngInject */ ($transition$) =>
