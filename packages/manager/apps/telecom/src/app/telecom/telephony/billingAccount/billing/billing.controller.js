@@ -1,6 +1,8 @@
+import { getShellClient } from '../../../../shell';
+
 export default /* @ngInject */ function TelecomTelephonyBillingAccountBillingCtrl(
   $translate,
-  coreURLBuilder,
+  $q,
 ) {
   const self = this;
 
@@ -10,7 +12,7 @@ export default /* @ngInject */ function TelecomTelephonyBillingAccountBillingCtr
     =            INITIALIZATION            =
     ====================================== */
 
-  function init() {
+  async function init() {
     self.actions = [
       {
         name: 'group_billing_bill',
@@ -81,7 +83,10 @@ export default /* @ngInject */ function TelecomTelephonyBillingAccountBillingCtr
       },
       {
         name: 'group_banking_management',
-        url: coreURLBuilder.buildURL('dedicated', '#/billing/mean'),
+        url: await getShellClient().navigation.getURL(
+          'dedicated',
+          '#/billing/mean',
+        ),
         isExternal: true,
         text: $translate.instant(
           'telephony_group_billing_actions_group_banking_management',
@@ -89,7 +94,10 @@ export default /* @ngInject */ function TelecomTelephonyBillingAccountBillingCtr
       },
       {
         name: 'group_delayed_account_transfert',
-        url: coreURLBuilder.buildURL('dedicated', '#/billing/ovhaccount'),
+        url: await getShellClient().navigation.getURL(
+          'dedicated',
+          '#/billing/ovhaccount',
+        ),
         isExternal: true,
         text: $translate.instant(
           'telephony_group_billing_actions_group_delayed_account_transfert',
@@ -100,5 +108,5 @@ export default /* @ngInject */ function TelecomTelephonyBillingAccountBillingCtr
 
   /* -----  End of INITIALIZATION  ------*/
 
-  init();
+  $q.when(true).then(init);
 }

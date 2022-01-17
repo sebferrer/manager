@@ -1,17 +1,13 @@
+import { getShellClient } from '../../../../shell';
+
 export default /* @ngInject */ function PackDomainCtrl(
   $scope,
-  coreURLBuilder,
   OvhApiPackXdslDomainActivation,
   $stateParams,
   $window,
+  $q,
 ) {
   const self = this;
-
-  this.getWebDomain = function getWebDomain(domainName) {
-    return coreURLBuilder.buildURL('web', '#/configuration/domain/:productId', {
-      productId: domainName,
-    });
-  };
 
   const init = function init() {
     self.details = $scope.service;
@@ -26,21 +22,27 @@ export default /* @ngInject */ function PackDomainCtrl(
       .query({
         packId: $stateParams.packName,
       })
-      .$promise.then(
-        (services) => {
-          angular.forEach(services, (service) => {
-            self.services.push({
-              name: service,
-              encoded: $window.encodeURIComponent(service),
-              tld: service.replace(/^.+\./, '.'),
-            });
-          });
-          $scope.loaders.services = false;
-        },
-        () => {
-          $scope.loaders.services = false;
-        },
-      );
+      .$promise.then((services) => {
+        return $q.all(
+          services.map((service) => {
+            return getShellClient()
+              .navigation.getURL('web', '#/configuration/domain/:productId', {
+                productId: service,
+              })
+              .then((webDomainURL) => {
+                self.services.push({
+                  name: service,
+                  encoded: $window.encodeURIComponent(service),
+                  tld: service.replace(/^.+\./, '.'),
+                  webDomainURL,
+                });
+              });
+          }),
+        );
+      })
+      .finally(() => {
+        $scope.loaders.services = false;
+      });
   };
 
   init();

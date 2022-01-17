@@ -1,6 +1,7 @@
+import { getShellClient } from '../../../../../shell';
+
 export default /* @ngInject */ function TelecomTelephonyServiceAssistSupportCtrl(
   $stateParams,
-  coreURLBuilder,
   TelephonyMediator,
   URLS,
 ) {
@@ -12,7 +13,6 @@ export default /* @ngInject */ function TelecomTelephonyServiceAssistSupportCtrl
 
   self.service = null;
   self.guideUrl = URLS.guides.telephony;
-  self.supportUrl = coreURLBuilder.buildURL('dedicated', '#/support');
 
   /*= =====================================
     =            INITIALIZATION            =
@@ -24,6 +24,10 @@ export default /* @ngInject */ function TelecomTelephonyServiceAssistSupportCtrl
     return TelephonyMediator.getGroup($stateParams.billingAccount)
       .then(() => {
         self.service = TelephonyMediator.findService($stateParams.serviceName);
+        return getShellClient().navigation.getURL('dedicated', '#/support');
+      })
+      .then((supportUrl) => {
+        self.supportUrl = supportUrl;
       })
       .finally(() => {
         self.loading.init = false;

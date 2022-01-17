@@ -2,11 +2,12 @@ import filter from 'lodash/filter';
 import get from 'lodash/get';
 import map from 'lodash/map';
 
+import { getShellClient } from '../../../../shell';
+
 export default /* @ngInject */ function PackExchangeAccountCtrl(
   $scope,
   $http,
   $stateParams,
-  coreURLBuilder,
   OvhApiPackXdslExchangeAccount,
 ) {
   const self = this;
@@ -36,10 +37,8 @@ export default /* @ngInject */ function PackExchangeAccountCtrl(
                 filter(services, (service) => service.value !== null),
                 (service) => {
                   const splittedPath = service.path.split('/');
-                  return angular.extend(service.value, {
-                    organizationName: splittedPath[3],
-                    exchangeService: splittedPath[5],
-                    managerUrl: coreURLBuilder.buildURL(
+                  return getShellClient()
+                    .navigation.getURL(
                       'exchange',
                       '#/configuration/exchange_hosted/:organization/:productId',
                       {
@@ -47,8 +46,14 @@ export default /* @ngInject */ function PackExchangeAccountCtrl(
                         productId: splittedPath[5],
                         tab: 'ACCOUNT',
                       },
-                    ),
-                  });
+                    )
+                    .then((managerUrl) => {
+                      return angular.extend(service.value, {
+                        organizationName: splittedPath[3],
+                        exchangeService: splittedPath[5],
+                        managerUrl,
+                      });
+                    });
                 },
               ),
               (service) =>
