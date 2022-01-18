@@ -368,13 +368,6 @@
                         data-term="{{:: 'hosting_dashboard_service_cdn' | translate }}"
                     >
                         <oui-tile-description>
-                            <span data-ng-if="">
-                                <span
-                                    class="oui-badge oui-badge_s oui-badge_new"
-                                    data-translate="hosting_dashboard_service_cdn_customer_has_cdn_v1_badge_new"
-                                ></span
-                                ><br />
-                            </span>
                             <span
                                 data-ng-bind="::hosting.hasCdn ? ('common_yes' | translate) : ('common_no' | translate)"
                             ></span>
