@@ -1,12 +1,13 @@
 import get from 'lodash/get';
 
+import { getShellClient } from '../../../shell';
+
 export default class EmailOfferActivateCtrl {
   /* @ngInject */
-  constructor($translate, hostingEmailService, Alerter, coreURLBuilder) {
+  constructor($translate, hostingEmailService, Alerter) {
     this.$translate = $translate;
     this.hostingEmailService = hostingEmailService;
     this.Alerter = Alerter;
-    this.coreURLBuilder = coreURLBuilder;
   }
 
   $onInit() {
@@ -47,16 +48,19 @@ export default class EmailOfferActivateCtrl {
     this.checkoutCartInProgress = true;
     return this.hostingEmailService
       .orderCart(this.order.cart)
-      .then((order) =>
+      .then((order) => {
+        return getShellClient().navigation.getURL(
+          'dedicated',
+          '#/billing/order/:orderId',
+          {
+            orderId: order.orderId,
+          },
+        );
+      })
+      .then((orderUrl) =>
         this.goToHosting(
           this.$translate.instant('hosting_email_address_activation_success', {
-            orderTrackURL: this.coreURLBuilder.buildURL(
-              'dedicated',
-              '#/billing/order/:orderId',
-              {
-                orderId: order.orderId,
-              },
-            ),
+            orderTrackURL: orderUrl,
           }),
         ),
       )

@@ -3,15 +3,15 @@ import isString from 'lodash/isString';
 import angular from 'angular';
 import 'moment';
 
+import { getShellClient } from '../../shell';
 import { RENEW_URL } from './service-expiration-date.component.constant';
 
 export default class {
   /* @ngInject */
-  constructor($q, $scope, $rootScope, coreConfig, coreURLBuilder) {
+  constructor($q, $scope, $rootScope, coreConfig) {
     this.$q = $q;
     $scope.tr = $rootScope.tr;
     this.coreConfig = coreConfig;
-    this.coreURLBuilder = coreURLBuilder;
   }
 
   $onInit() {
@@ -29,6 +29,11 @@ export default class {
         this.orderUrl = `${RENEW_URL[this.coreConfig.getRegion()]}${
           this.serviceInfos.domain
         }`;
+
+        return this.getCancelTerminationUrl();
+      })
+      .then((cancelTerminationUrl) => {
+        this.cancelTerminationUrl = cancelTerminationUrl;
       })
       .finally(() => {
         this.loading = false;
@@ -44,13 +49,13 @@ export default class {
         params.selectedType = this.serviceType;
       }
 
-      return this.coreURLBuilder.buildURL(
+      return getShellClient().navigation.getURL(
         'dedicated',
         '#/billing/autorenew',
         params,
       );
     }
-    return '';
+    return this.$q.when('');
   }
 
   getOrderUrl() {

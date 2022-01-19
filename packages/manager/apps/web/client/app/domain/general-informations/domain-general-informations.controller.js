@@ -13,6 +13,8 @@ import maxBy from 'lodash/maxBy';
 import reduce from 'lodash/reduce';
 import some from 'lodash/some';
 
+import { getShellClient } from '../../shell';
+
 import {
   DNSSEC_STATUS,
   PRODUCT_TYPE,
@@ -31,7 +33,6 @@ export default class DomainTabGeneralInformationsCtrl {
     Alerter,
     constants,
     coreConfig,
-    coreURLBuilder,
     dnsAvailableOptions,
     Domain,
     emailObfuscationLink,
@@ -68,7 +69,6 @@ export default class DomainTabGeneralInformationsCtrl {
     this.WucUser = WucUser;
     this.constants = constants;
     this.coreConfig = coreConfig;
-    this.coreURLBuilder = coreURLBuilder;
     this.DOMAIN = DOMAIN;
     this.goToDnsAnycast = goToDnsAnycast;
   }
@@ -177,7 +177,7 @@ export default class DomainTabGeneralInformationsCtrl {
     this.getHostingInfos(this.domain.name);
     this.getAssociatedHostingsSubdomains();
     this.getAllOptionDetails(this.domain.name);
-    this.updateOwnerUrl = this.getUpdateOwnerUrl(this.domain);
+    this.getUpdateOwnerUrl(this.domain);
 
     this.getRules();
 
@@ -187,31 +187,40 @@ export default class DomainTabGeneralInformationsCtrl {
   }
 
   initActions() {
-    const contactManagementUrl = this.coreConfig.isRegion('EU')
-      ? this.coreURLBuilder.buildURL('dedicated', '#/contacts/services', {
+    this.loading.changeOwner = true;
+
+    let contactManagementPromise = this.$q.when('');
+    if (this.coreConfig.isRegion('EU')) {
+      contactManagementPromise = getShellClient().navigation.getURL(
+        'dedicated',
+        '#/contacts/services',
+        {
           serviceName: this.domain.name,
           category: PRODUCT_TYPE,
-        })
-      : '';
+        },
+      );
+    }
 
-    this.actions = {
-      manageContact: {
-        text: this.$translate.instant('common_manage_contacts'),
-        href: contactManagementUrl,
-      },
-      changeOwner: {
-        text: this.$translate.instant('core_change_owner'),
-        href: '',
-      },
-      manageAutorenew: {
-        text: this.$translate.instant('common_manage'),
-        href: `#/billing/autoRenew?searchText=${this.domain.name}&selectedType=DOMAIN`,
-      },
-      manageAlldom: {
-        href: `#/billing/autoRenew?searchText=${this.allDom}&selectedType=ALL_DOM`,
-      },
-    };
-    this.loading.changeOwner = true;
+    contactManagementPromise.then((contactManagementUrl) => {
+      this.actions = {
+        manageContact: {
+          text: this.$translate.instant('common_manage_contacts'),
+          href: contactManagementUrl,
+        },
+        changeOwner: {
+          text: this.$translate.instant('core_change_owner'),
+          href: '',
+        },
+        manageAutorenew: {
+          text: this.$translate.instant('common_manage'),
+          href: `#/billing/autoRenew?searchText=${this.domain.name}&selectedType=DOMAIN`,
+        },
+        manageAlldom: {
+          href: `#/billing/autoRenew?searchText=${this.allDom}&selectedType=ALL_DOM`,
+        },
+      };
+    });
+
     if (isObject(this.domain.whoisOwner)) {
       return this.$q
         .all({
@@ -488,32 +497,40 @@ export default class DomainTabGeneralInformationsCtrl {
   }
 
   getUpdateOwnerUrl(domain) {
-    const ownerUrlInfo = { target: '', error: '' };
+    let ownerUrlPromise;
     if (has(domain, 'name') && has(domain, 'whoisOwner.id')) {
-      ownerUrlInfo.target = this.coreURLBuilder.buildURL(
-        'dedicated',
-        '#/contact/:currentDomain/:contactId',
-        {
+      ownerUrlPromise = getShellClient()
+        .navigation.getURL('dedicated', '#/contact/:currentDomain/:contactId', {
           currentDomain: domain.name,
           contactId: domain.whoisOwner.id,
-        },
-      );
+        })
+        .then((ownerUrl) => {
+          return { target: ownerUrl, error: '' };
+        });
     } else if (!has(domain, 'name')) {
-      ownerUrlInfo.error = this.$translate.instant(
-        'domain_tab_REDIRECTION_add_step4_server_cname_error',
-      );
+      ownerUrlPromise = this.$q.when({
+        error: this.$translate.instant(
+          'domain_tab_REDIRECTION_add_step4_server_cname_error',
+        ),
+        target: '',
+      });
     } else {
-      ownerUrlInfo.error =
-        domain.whoisOwner !== this.DOMAIN.WHOIS_STATUS.PENDING &&
-        domain.whoisOwner !== this.DOMAIN.WHOIS_STATUS.INVALID_CONTACT &&
-        this.$translate.instant('domain_dashboard_whois_error');
+      ownerUrlPromise = this.$q.when({
+        error:
+          domain.whoisOwner !== this.DOMAIN.WHOIS_STATUS.PENDING &&
+          domain.whoisOwner !== this.DOMAIN.WHOIS_STATUS.INVALID_CONTACT &&
+          this.$translate.instant('domain_dashboard_whois_error'),
+        target: '',
+      });
     }
 
-    if (ownerUrlInfo.error) {
-      this.Alerter.error(ownerUrlInfo.error, this.$scope.alerts.tabs);
-    }
+    return ownerUrlPromise.then((ownerUrlInfo) => {
+      if (ownerUrlInfo.error) {
+        this.Alerter.error(ownerUrlInfo.error, this.$scope.alerts.tabs);
+      }
 
-    return ownerUrlInfo;
+      this.updateOwnerUrl = ownerUrlInfo;
+    });
   }
 
   getRules() {

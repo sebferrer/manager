@@ -3,14 +3,14 @@ import isString from 'lodash/isString';
 import angular from 'angular';
 import 'moment';
 
+import { getShellClient } from '../../shell';
 import { DEFAULT_TARGET, RENEW_URL } from './service-status-action.constant';
 
 export default class {
   /* @ngInject */
-  constructor(constants, coreConfig, coreURLBuilder, $q) {
+  constructor(constants, coreConfig, $q) {
     this.constants = constants;
     this.coreConfig = coreConfig;
-    this.coreURLBuilder = coreURLBuilder;
     this.$q = $q;
   }
 
@@ -21,9 +21,11 @@ export default class {
 
     this.loading = true;
 
-    return this.getOrderUrl().finally(() => {
-      this.loading = false;
-    });
+    return this.getOrderUrl()
+      .then(() => this.getAutoRenewUrl())
+      .finally(() => {
+        this.loading = false;
+      });
   }
 
   getRenewUrl() {
@@ -49,11 +51,12 @@ export default class {
     if (isString(this.serviceType)) {
       params.selectedType = this.serviceType;
     }
-    return this.coreURLBuilder.buildURL(
-      'dedicated',
-      '#/billing/autoRenew',
-      params,
-    );
+
+    return getShellClient()
+      .navigation.getURL('dedicated', '#/billing/autoRenew', params)
+      .then((autoRenewUrl) => {
+        this.autoRenewUrl = autoRenewUrl;
+      });
   }
 
   getDate() {

@@ -124,12 +124,17 @@ const getLocale = (shellClient) => {
   return shellClient.i18n.getLocale();
 };
 
+const getPaymentMethodPageUrl = (shellClient) => {
+  return shellClient.navigation.getURL('dedicated', '#/billing/payment/method');
+};
+
 export default async (containerEl, shellClient) => {
   const moduleName = 'App';
 
-  const [environment, locale] = await Promise.all([
+  const [environment, locale, paymentMethodPageUrl] = await Promise.all([
     getEnvironment(shellClient),
     getLocale(shellClient),
+    getPaymentMethodPageUrl(shellClient),
   ]);
 
   const config = getConfig(environment.getRegion());
@@ -264,13 +269,8 @@ export default async (containerEl, shellClient) => {
       },
     ])
     .config(
-      /* @ngInject */ (ovhPaymentMethodProvider, coreURLBuilderProvider) => {
-        ovhPaymentMethodProvider.setPaymentMethodPageUrl(
-          coreURLBuilderProvider.buildURL(
-            'dedicated',
-            '#/billing/payment/method',
-          ),
-        );
+      /* @ngInject */ (ovhPaymentMethodProvider) => {
+        ovhPaymentMethodProvider.setPaymentMethodPageUrl(paymentMethodPageUrl);
         ovhPaymentMethodProvider.setUserLocale(locale);
       },
     )
@@ -339,24 +339,16 @@ export default async (containerEl, shellClient) => {
     )
     .config(
       /* @ngInject */
-      (
-        $urlRouterProvider,
-        coreURLBuilderProvider,
-        URLS_REDIRECTED_TO_DEDICATED,
-      ) => {
+      ($urlRouterProvider, URLS_REDIRECTED_TO_DEDICATED) => {
         forEach(URLS_REDIRECTED_TO_DEDICATED, (url) => {
           $urlRouterProvider.when(url, [
             '$window',
             '$location',
             ($window, $location) => {
               const lastPartOfUrl = $location.url().substring(1);
-              set(
-                $window,
-                'location',
-                coreURLBuilderProvider.buildURL(
-                  'dedicated',
-                  `#/${lastPartOfUrl}`,
-                ),
+              shellClient.navigation.navigateTo(
+                'dedicated',
+                `#/${lastPartOfUrl}`,
               );
             },
           ]);
@@ -479,14 +471,14 @@ export default async (containerEl, shellClient) => {
     ])
     .run(
       /* @ngInject */
-      ($location, URLS_REDIRECTED_TO_DEDICATED, coreURLBuilder) => {
+      ($location, URLS_REDIRECTED_TO_DEDICATED) => {
         forEach(
           filter(URLS_REDIRECTED_TO_DEDICATED, (url) =>
             url.test(window.location.href),
           ),
           () => {
             const lastPartOfUrl = $location.url().substring(1);
-            window.location = coreURLBuilder.buildURL(
+            shellClient.navigation.navigateTo(
               'dedicated',
               `#/${lastPartOfUrl}`,
             );

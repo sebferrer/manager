@@ -8,6 +8,8 @@ import set from 'lodash/set';
 import some from 'lodash/some';
 import union from 'lodash/union';
 
+import { getShellClient } from '../../shell';
+
 export default class {
   /* @ngInject */
   constructor(
@@ -30,7 +32,6 @@ export default class {
     availableOptions,
     cdnProperties,
     cdnRange,
-    coreURLBuilder,
     cronLink,
     currentActiveLink,
     databaseLink,
@@ -92,7 +93,6 @@ export default class {
     this.boostLink = boostLink;
     this.constants = constants;
     this.availableOptions = availableOptions;
-    this.coreURLBuilder = coreURLBuilder;
     this.cronLink = cronLink;
     this.currentActiveLink = currentActiveLink;
     this.databaseLink = databaseLink;
@@ -619,13 +619,17 @@ export default class {
   }
 
   getAutorenewUrl(guides) {
-    this.$scope.autorenew = {
-      guide: guides.autorenew,
-      url: this.coreURLBuilder.buildURL('dedicated', '#/billing/autoRenew', {
+    return getShellClient()
+      .navigation.getURL('dedicated', '#/billing/autoRenew', {
         selectedType: 'HOSTING_WEB',
         searchText: this.$scope.hosting.serviceInfos.domain,
-      }),
-    };
+      })
+      .then((autoRenewUrl) => {
+        this.$scope.autorenew = {
+          guide: guides.autorenew,
+          url: autoRenewUrl,
+        };
+      });
   }
 
   getAssociatedEmail() {
@@ -727,8 +731,10 @@ export default class {
               break;
           }
 
-          this.getAutorenewUrl(guides);
+          return this.getAutorenewUrl(guides);
         }
+
+        return {};
       })
       .then(() => {
         if (

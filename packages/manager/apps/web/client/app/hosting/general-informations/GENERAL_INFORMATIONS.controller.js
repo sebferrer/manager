@@ -6,6 +6,7 @@ import get from 'lodash/get';
 import { QUOTA_DECIMAL_PRECISION } from './general-informations.constants';
 import { HOSTING_CDN_ORDER_CDN_VERSION_V1 } from '../cdn/order/hosting-cdn-order.constant';
 import { SHARED_CDN_GET_MORE_INFO } from '../cdn/shared/hosting-cdn-shared-settings.constants';
+import { getShellClient } from '../../shell';
 
 export default class HostingGeneralInformationsCtrl {
   /* @ngInject */
@@ -17,7 +18,6 @@ export default class HostingGeneralInformationsCtrl {
     $translate,
     atInternet,
     coreConfig,
-    coreURLBuilder,
     Alerter,
     boostLink,
     flushCDNLink,
@@ -40,7 +40,6 @@ export default class HostingGeneralInformationsCtrl {
 
     this.atInternet = atInternet;
     this.coreConfig = coreConfig;
-    this.coreURLBuilder = coreURLBuilder;
     this.Alerter = Alerter;
     this.boostLink = boostLink;
     this.flushCDNLink = flushCDNLink;
@@ -62,12 +61,17 @@ export default class HostingGeneralInformationsCtrl {
     this.serviceName = this.$stateParams.productId;
     this.defaultRuntime = null;
     this.availableOffers = [];
-    this.contactManagementLink = this.coreConfig.isRegion('EU')
-      ? this.coreURLBuilder.buildURL('dedicated', '#/contacts/services', {
+
+    const contactManagementLinkPromise = this.coreConfig.isRegion('EU')
+      ? getShellClient().navigation.getURL('dedicated', '#/contacts/services', {
           serviceName: this.serviceName,
           category: 'HOSTING',
         })
-      : '';
+      : this.$q.when('');
+
+    contactManagementLinkPromise.then((contactManagementLink) => {
+      this.contactManagementLink = contactManagementLink;
+    });
 
     this.loading = {
       defaultRuntime: true,

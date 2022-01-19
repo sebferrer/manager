@@ -4,6 +4,8 @@ import isEmpty from 'lodash/isEmpty';
 import map from 'lodash/map';
 import set from 'lodash/set';
 
+import { getShellClient } from '../../shell';
+
 export default class PrivateDatabaseCtrl {
   /* @ngInject */
   constructor(
@@ -14,7 +16,6 @@ export default class PrivateDatabaseCtrl {
     $timeout,
     $translate,
     coreConfig,
-    coreURLBuilder,
     Alerter,
     allowedIPsLink,
     configurationLink,
@@ -38,7 +39,6 @@ export default class PrivateDatabaseCtrl {
     this.$timeout = $timeout;
     this.$translate = $translate;
     this.coreConfig = coreConfig;
-    this.coreURLBuilder = coreURLBuilder;
     this.alerter = Alerter;
     this.allowedIPsLink = allowedIPsLink;
     this.configurationLink = configurationLink;
@@ -60,11 +60,15 @@ export default class PrivateDatabaseCtrl {
     this.productId = this.$stateParams.productId;
     this.isExpired = false;
 
-    this.contactManagementLink = this.coreConfig.isRegion('EU')
-      ? this.coreURLBuilder.buildURL('dedicated', '#/contacts/services', {
+    const contactManagementLinkPromise = this.coreConfig.isRegion('EU')
+      ? getShellClient().navigation.getURL('dedicated', '#/contacts/services', {
           serviceName: this.productId,
         })
-      : '';
+      : this.$q.when('');
+
+    contactManagementLinkPromise.then((contactManagementLink) => {
+      this.contactManagementLink = contactManagementLink;
+    });
 
     this.$scope.alerts = {
       page: 'privateDataBase.alerts.page',

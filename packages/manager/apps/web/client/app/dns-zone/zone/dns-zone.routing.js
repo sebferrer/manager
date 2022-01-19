@@ -2,6 +2,8 @@ import set from 'lodash/set';
 import controller from './dns-zone.controller';
 import template from './dns-zone.html';
 
+import { getShellClient } from '../../shell';
+
 export default /* @ngInject */ ($stateProvider) => {
   $stateProvider.state('app.zone.details', {
     url: '/:productId',
@@ -12,15 +14,15 @@ export default /* @ngInject */ ($stateProvider) => {
     resolve: {
       capabilities: /* @ngInject */ (DNSZoneService, serviceName) =>
         DNSZoneService.getCapabilities(serviceName),
-      contactManagementLink: /* @ngInject */ (
-        coreConfig,
-        coreURLBuilder,
-        serviceName,
-      ) =>
+      contactManagementLink: /* @ngInject */ (coreConfig, serviceName) =>
         coreConfig.isRegion('EU')
-          ? coreURLBuilder.buildURL('dedicated', '#/contacts/services', {
-              serviceName,
-            })
+          ? getShellClient().navigation.getURL(
+              'dedicated',
+              '#/contacts/services',
+              {
+                serviceName,
+              },
+            )
           : '',
       currentSection: () => 'zone',
       navigationInformations: /* @ngInject */ (
@@ -37,8 +39,8 @@ export default /* @ngInject */ ($stateProvider) => {
       serviceName: /* @ngInject */ ($transition$) =>
         $transition$.params().productId,
       breadcrumb: /* @ngInject */ (serviceName) => serviceName,
-      emailLink: /* @ngInject */ (coreURLBuilder, serviceName) =>
-        coreURLBuilder.buildURL(
+      emailLink: /* @ngInject */ (serviceName) =>
+        getShellClient().navigation.getURL(
           'web',
           `#/email_domain/${serviceName}/mailing-list`,
         ),
