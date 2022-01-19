@@ -13,7 +13,7 @@ export default class IFrameMessageBus implements IMessageBus {
     this.listeners = [];
     window.addEventListener('message', (event) => {
       const { data } = event;
-      if (data.type === IFRAME_MESSAGE_TYPE) {
+      if (event.origin === 'https://feat-manager-shell-poc-manager.eu.dtci.ovhcloud.dev' && data.type === IFRAME_MESSAGE_TYPE) {
         this.listeners.forEach((listener) => {
           listener(data.message);
         });
