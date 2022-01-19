@@ -30,6 +30,10 @@
             ></button>
         </oui-message>
 
+        <oui-button data-on-click="$ctrl.constructor.testFakeError()">
+            Test sentry
+        </oui-button>
+
         <div class="row d-md-flex" data-ng-if="!hosting.isExpired">
             <div class="col-md-4 mb-3">
                 <oui-tile
@@ -368,14 +372,12 @@
                         data-term="{{:: 'hosting_dashboard_service_cdn' | translate }}"
                     >
                         <oui-tile-description>
-                            <span
-                                data-ng-if=""
-                            >
+                            <span data-ng-if="">
                                 <span
                                     class="oui-badge oui-badge_s oui-badge_new"
                                     data-translate="hosting_dashboard_service_cdn_customer_has_cdn_v1_badge_new"
                                 ></span
-                                ><br/>
+                                ><br />
                             </span>
                             <span
                                 data-ng-bind="::hosting.hasCdn ? ('common_yes' | translate) : ('common_no' | translate)"
@@ -386,9 +388,11 @@
                                     data-ng-if="isUpgradable && cdnProperties.version === '2013v1'"
                                 >
                                     <span> - </span>
-                                    <span class="fa fa-exclamation-triangle text-warning"
-                                          aria-hidden="true"
-                                          data-oui-tooltip="{{:: 'hosting_dashboard_service_cdn_customer_has_cdn_v1_new_offers' | translate }}"></span>
+                                    <span
+                                        class="fa fa-exclamation-triangle text-warning"
+                                        aria-hidden="true"
+                                        data-oui-tooltip="{{:: 'hosting_dashboard_service_cdn_customer_has_cdn_v1_new_offers' | translate }}"
+                                    ></span>
                                 </span>
                             </span>
                             <oui-spinner
@@ -401,19 +405,28 @@
                                 data-ng-if="flushCdnState === 'doing'"
                             ></span>
 
-                            <div data-ng-if="hosting.hasCdn && $ctrl.isCdnInDeleteAtExpiration">
+                            <div
+                                data-ng-if="hosting.hasCdn && $ctrl.isCdnInDeleteAtExpiration"
+                            >
                                 <p class="m-0">
-                                    <small data-translate="hosting_dashboard_config_tile_options_cdn_cancel_terminate"
-                                           data-translate-values="{ endEngagementDate: '<b>' + (cdnServiceInfo.expirationDate | date) + '</b>' }">
+                                    <small
+                                        data-translate="hosting_dashboard_config_tile_options_cdn_cancel_terminate"
+                                        data-translate-values="{ endEngagementDate: '<b>' + (cdnServiceInfo.expirationDate | date) + '</b>' }"
+                                    >
                                     </small>
                                 </p>
                                 <button
                                     type="button"
                                     class="oui-button oui-button_s oui-button_ghost oui-button_icon-right"
-                                    data-ng-click="$ctrl.onCancelTerminateCdn()">
+                                    data-ng-click="$ctrl.onCancelTerminateCdn()"
+                                >
                                     <span
-                                        data-translate="hosting_dashboard_config_tile_options_cdn_cancel_terminate_link"></span>
-                                    <span class="oui-icon oui-icon-arrow-right" aria-hidden="true"></span>
+                                        data-translate="hosting_dashboard_config_tile_options_cdn_cancel_terminate_link"
+                                    ></span>
+                                    <span
+                                        class="oui-icon oui-icon-arrow-right"
+                                        aria-hidden="true"
+                                    ></span>
                                 </button>
                             </div>
                         </oui-tile-description>

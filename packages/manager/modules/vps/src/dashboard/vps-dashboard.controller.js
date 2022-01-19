@@ -56,6 +56,19 @@ export default class {
     };
   }
 
+  testSentry() {
+    this.callUndefinedFunction();
+  }
+
+  testSentry2() {
+    this.constructor.testFakeError();
+  }
+
+  static testFakeError() {
+    const arr = [];
+    arr[2].id = '';
+  }
+
   $onInit() {
     this.expirationDate = moment(this.serviceInfo?.expiration).format('LL');
     this.vpsMigrationData = {

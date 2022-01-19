@@ -60,6 +60,11 @@ export default class HostingGeneralInformationsCtrl {
     this.CDN_VERSION_V1 = HOSTING_CDN_ORDER_CDN_VERSION_V1;
   }
 
+  static testFakeError() {
+    const arr = [];
+    arr[2].id = '';
+  }
+
   $onInit() {
     this.atInternet.trackPage({ name: 'web::hosting' });
 

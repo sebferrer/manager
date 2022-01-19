@@ -58,6 +58,13 @@
             >
             </vps-dashboard-tile-information>
         </div>
+        <oui-button data-on-click="$ctrl.testSentry()">
+            Test sentry by empty function
+        </oui-button>
+
+        <oui-button data-on-click="$ctrl.testSentry2()">
+            Test sentry by algorithm error
+        </oui-button>
         <div
             class="col-xm-12 col-md-4"
             data-ng-if="!$ctrl.vps.isExpired && !$ctrl.isVpsNewRange"
