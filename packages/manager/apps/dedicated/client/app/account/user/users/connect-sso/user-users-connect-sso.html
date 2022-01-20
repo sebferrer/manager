@@ -1,0 +1,80 @@
+<div data-ng-controller="UserAccountUsersConnectSSOCtrl as $ctrl">
+    <div
+        data-wizard
+        data-wizard-on-cancel="resetAction"
+        data-wizard-on-finish="connectSSO"
+        data-wizard-title="::'user_users_connect_sso_modal_title' | translate"
+    >
+        <div
+            data-wizard-step
+            data-wizard-step-valid="$ctrl.userAccountUsersConnectSSOForm.$valid"
+        >
+            <p
+                data-translate="user_users_connect_sso_modal_info"
+                data-translate-values="{customerCode: $ctrl.me.customerCode}"
+            ></p>
+
+            <p
+                class="text-danger"
+                data-translate="user_users_connect_sso_modal_warning"
+                data-translate-values="{customerCode: $ctrl.me.customerCode}"
+            ></p>
+
+            <h2
+                class="wizard-title-sub"
+                data-translate="user_users_connect_sso_modal_step1_question"
+                data-translate-values="{login: $ctrl.user.login}"
+            ></h2>
+
+            <div class="text-center" data-ng-if="$ctrl.loader">
+                <oui-spinner data-size="s"></oui-spinner>
+            </div>
+
+            <form
+                name="$ctrl.userAccountUsersConnectSSOForm"
+                data-ng-if="!$ctrl.loader"
+            >
+                <div class="form-group">
+                    <label
+                        class="control-label"
+                        for="groupAttributeName"
+                        data-translate="user_users_connect_sso_modal_group_attribute_name"
+                    >
+                    </label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="groupAttributeName"
+                        name="groupAttributeName"
+                        data-ng-model="$ctrl.identityProvider.groupAttributeName"
+                    />
+                </div>
+                <div class="form-group">
+                    <label
+                        class="control-label"
+                        for="xml-metadata"
+                        data-translate="user_users_connect_sso_modal_xml_metadata"
+                    >
+                    </label>
+
+                    <textarea
+                        class="py-2 form-control"
+                        id="xml-metadata"
+                        name="xml-metadata"
+                        rows="5"
+                        data-ng-model="$ctrl.identityProvider.metadata"
+                        required
+                    >
+                    </textarea>
+                    <span
+                        class="help-block"
+                        role="alert"
+                        data-ng-if="$ctrl.userAccountUsersConnectSSOForm.description.$touched"
+                        data-ng-messages="$ctrl.userAccountUsersConnectSSOForm.description.$error"
+                    >
+                    </span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

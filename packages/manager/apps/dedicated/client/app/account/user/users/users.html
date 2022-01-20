@@ -1,7 +1,7 @@
 <div>
     <div data-ovh-alert="userUsers"></div>
 
-    <oui-message data-type="info">
+    <oui-message data-ng-if="$ctrl.idp == null" data-type="info">
         <span
             class="d-block"
             data-translate="user_users_info"
@@ -12,6 +12,15 @@
             data-ng-if="$ctrl.users.length !== 0 && !$ctrl.usersLoading"
             data-translate="user_users_info_example"
             data-translate-values="{customerCode: $ctrl.me.customerCode, login: $ctrl.users[0].login}"
+        >
+        </span>
+    </oui-message>
+
+    <oui-message data-ng-if="$ctrl.idp != null" data-type="info">
+        <span
+            class="d-block"
+            data-translate="user_users_connect_sso_info"
+            data-translate-values="{customerCode: $ctrl.me.customerCode}"
         >
         </span>
     </oui-message>
@@ -28,8 +37,114 @@
         <span data-translate="user_users_add_user"></span>
     </button>
 
+    <!-- CONNECT SSO BTN -->
+    <button
+        id="btnConnectSSO"
+        type="button"
+        class="btn btn-primary float-right my-4"
+        data-ng-click="setAction('users/connect-sso/user-users-connect-sso', user)"
+        data-ng-disabled="$ctrl.usersLoading"
+        data-ng-class="{'disabled': $ctrl.usersLoading}"
+        data-ng-if="$ctrl.idp == null"
+    >
+        <span data-translate="user_users_connect_sso"></span>
+    </button>
+
+    <!-- SSO IDENTITY PROVIDER -->
+    <div data-ng-show="$ctrl.idp != null" class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th
+                        data-translate="user_users_connect_sso_service_url"
+                        scope="col"
+                    ></th>
+                    <th
+                        data-translate="user_users_connect_sso_creation_date"
+                        scope="col"
+                    ></th>
+                    <th
+                        data-translate="user_users_connect_sso_last_update_date"
+                        colspan="2"
+                        scope="col"
+                    ></th>
+                </tr>
+            </thead>
+            <tbody data-ng-show="$ctrl.usersLoading">
+                <tr>
+                    <td colspan="6" class="text-center">
+                        <oui-spinner data-size="s"></oui-spinner>
+                    </td>
+                </tr>
+            </tbody>
+            <tbody
+                data-ng-show="$ctrl.users.length === 0 && !$ctrl.usersLoading"
+            >
+                <tr>
+                    <td
+                        colspan="6"
+                        class="text-center font-italic"
+                        data-translate="user_users_connect_sso_table_empty"
+                    ></td>
+                </tr>
+            </tbody>
+            <tbody data-ng-show="$ctrl.users.length > 0 && !$ctrl.usersLoading">
+                <tr>
+                    <td data-ng-bind="$ctrl.idp.ssoServiceUrl"></td>
+                    <td data-ng-bind="$ctrl.idp.creation | date"></td>
+                    <td data-ng-bind="$ctrl.idp.lastUpdate | date"></td>
+
+                    <td class="text-right">
+                        <div data-uib-dropdown data-dropdown-append-to-body>
+                            <button
+                                type="button"
+                                class="btn btn-link"
+                                data-uib-dropdown-toggle
+                            >
+                                <span
+                                    class="ovh-font ovh-font-dots align-top"
+                                    aria-hidden="true"
+                                >
+                                </span>
+                            </button>
+                            <ul
+                                data-uib-dropdown-menu
+                                class="dropdown-menu dropdown-menu-right"
+                            >
+                                <li>
+                                    <button
+                                        type="button"
+                                        class="btn btn-link"
+                                        data-ng-click="setAction('users/update/user-users-connect-sso-details', user)"
+                                        data-translate="user_users_connect_sso_details"
+                                    ></button>
+                                </li>
+                                <li>
+                                    <button
+                                        type="button"
+                                        class="btn btn-link"
+                                        data-ng-click="setAction('users/delete/user-users-connect-sso-update', user)"
+                                        data-translate="user_users_connect_sso_update"
+                                    ></button>
+                                </li>
+                                <li>
+                                    <button
+                                        type="button"
+                                        class="btn btn-link"
+                                        data-ng-click="setAction('users/connect-sso/delete/user-users-connect-sso-delete', user)"
+                                        data-translate="user_users_connect_sso_delete"
+                                    ></button>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
     <!-- USERS LIST -->
-    <div class="table-responsive">
+    <div data-ng-if="$ctrl.idp == null" class="table-responsive">
         <table class="table table-hover">
             <thead>
                 <tr>
