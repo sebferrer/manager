@@ -25,6 +25,7 @@
         </span>
     </oui-message>
 
+
     <!-- USER ADD BTN -->
     <button
         id="btnAddUser"
@@ -42,12 +43,12 @@
         id="btnConnectSSO"
         type="button"
         class="btn btn-primary float-right my-4"
-        data-ng-click="setAction('users/connect-sso/user-users-connect-sso', user)"
+        data-ng-click="setAction('users/connect-sso/add/user-users-connect-sso-add', user)"
         data-ng-disabled="$ctrl.usersLoading"
         data-ng-class="{'disabled': $ctrl.usersLoading}"
         data-ng-if="$ctrl.idp == null"
     >
-        <span data-translate="user_users_connect_sso"></span>
+        <span data-translate="user_users_connect_sso_add"></span>
     </button>
 
     <!-- SSO IDENTITY PROVIDER -->
@@ -55,19 +56,9 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th
-                        data-translate="user_users_connect_sso_service_url"
-                        scope="col"
-                    ></th>
-                    <th
-                        data-translate="user_users_connect_sso_creation_date"
-                        scope="col"
-                    ></th>
-                    <th
-                        data-translate="user_users_connect_sso_last_update_date"
-                        colspan="2"
-                        scope="col"
-                    ></th>
+                    <th data-translate="user_users_connect_sso_service_url" scope="col"></th>
+                    <th data-translate="user_users_connect_sso_creation_date" scope="col"></th>
+                    <th data-translate="user_users_connect_sso_last_update_date" colspan="2" scope="col"></th>
                 </tr>
             </thead>
             <tbody data-ng-show="$ctrl.usersLoading">
@@ -90,9 +81,12 @@
             </tbody>
             <tbody data-ng-show="$ctrl.users.length > 0 && !$ctrl.usersLoading">
                 <tr>
-                    <td data-ng-bind="$ctrl.idp.ssoServiceUrl"></td>
-                    <td data-ng-bind="$ctrl.idp.creation | date"></td>
-                    <td data-ng-bind="$ctrl.idp.lastUpdate | date"></td>
+                    <td data-ng-bind="$ctrl.idp.ssoServiceUrl">
+                    </td>
+                    <td data-ng-bind="$ctrl.idp.creation | date">
+                    </td>
+                    <td data-ng-bind="$ctrl.idp.lastUpdate | date">
+                    </td>
 
                     <td class="text-right">
                         <div data-uib-dropdown data-dropdown-append-to-body>
