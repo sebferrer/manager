@@ -61,25 +61,7 @@
                     <th data-translate="user_users_connect_sso_last_update_date" colspan="2" scope="col"></th>
                 </tr>
             </thead>
-            <tbody data-ng-show="$ctrl.usersLoading">
-                <tr>
-                    <td colspan="6" class="text-center">
-                        <oui-spinner data-size="s"></oui-spinner>
-                    </td>
-                </tr>
-            </tbody>
-            <tbody
-                data-ng-show="$ctrl.users.length === 0 && !$ctrl.usersLoading"
-            >
-                <tr>
-                    <td
-                        colspan="6"
-                        class="text-center font-italic"
-                        data-translate="user_users_connect_sso_table_empty"
-                    ></td>
-                </tr>
-            </tbody>
-            <tbody data-ng-show="$ctrl.users.length > 0 && !$ctrl.usersLoading">
+            <tbody>
                 <tr>
                     <td data-ng-bind="$ctrl.idp.ssoServiceUrl">
                     </td>
@@ -262,6 +244,7 @@
         </table>
     </div>
     <div
+        data-ng-if="$ctrl.idp == null"
         data-pagination-front
         data-items="$ctrl.userIds"
         data-paginated-items="$ctrl.users"

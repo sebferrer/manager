@@ -67,6 +67,5 @@
   "user_users_connext_sso_delete_error_message": "Une erreur est survenue lors de la suppression de la connexion SSO :",
   "user_users_connect_sso_add_success_message": "La connexion SSO a été ajoutée avec succès.",
   "user_users_connect_sso_add_error_message": "Une erreur est survenue lors de l'ajout de la connexion SSO",
-  "user_users_connect_sso_table_empty": "Aucune connexion SSO",
   "user_users_connect_sso_info": "Un identity provider externe est actuellement lié à ce compte. L'utilisateur devra renseigner votre identifiant <strong>{{customerCode}}/idp</strong> sans son mot de passe afin d'être redirigé vers la page d'authentification de l'identity provider."
 }
