@@ -1,6 +1,6 @@
 import get from 'lodash/get';
 
-export default class UserAccountUsersConnectSSOAddCtrl {
+export default class UserAccountUsersSSOAddCtrl {
   /* @ngInject */
   constructor(
     $scope,
@@ -35,7 +35,7 @@ export default class UserAccountUsersConnectSSOAddCtrl {
       .addIdentityProvider(this.identityProvider)
       .then(() => {
         this.alerter.success(
-          this.$translate.instant('user_users_connect_sso_add_success_message', {
+          this.$translate.instant('user_users_sso_add_success_message', {
             login: this.user.login,
           }),
           'userUsers',
@@ -43,7 +43,7 @@ export default class UserAccountUsersConnectSSOAddCtrl {
       })
       .catch((err) => {
         this.alerter.error(
-          `${this.$translate.instant('user_users_connect_sso_add_error_message')} ${get(
+          `${this.$translate.instant('user_users_sso_add_error_message')} ${get(
             err,
             'message',
             err,

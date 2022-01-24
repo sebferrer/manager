@@ -16,16 +16,16 @@ import disableController from './disable/user-users-disable.controller';
 import deleteController from './delete/user-users-delete.controller';
 import enableController from './enable/user-users-enable.controller';
 import updateController from './update/user-users-update.controller';
-import connectSSOAddController from './connect-sso/add/user-users-connect-sso-add.controller';
-import connectSSODeleteController from './connect-sso/delete/user-users-connect-sso-delete.controller';
+import ssoAddController from './sso/add/user-users-sso-add.controller';
+import ssoDeleteController from './sso/delete/user-users-sso-delete.controller';
 
 import addTemplate from './add/user-users-add.html';
 import deleteTemplate from './delete/user-users-delete.html';
 import disableTemplate from './disable/user-users-disable.html';
 import enableTemplate from './enable/user-users-enable.html';
 import updateTemplate from './update/user-users-update.html';
-import connectSSOAddTemplate from './connect-sso/add/user-users-connect-sso-add.html';
-import connectSSODeleteTemplate from './connect-sso/delete/user-users-connect-sso-delete.html';
+import ssoAddTemplate from './sso/add/user-users-sso-add.html';
+import ssoDeleteTemplate from './sso/delete/user-users-sso-delete.html';
 
 const moduleName = 'ovhManagerDedicatedAccountUserUsers';
 
@@ -45,8 +45,8 @@ angular
   .controller('UserAccountUsersDeleteCtrl', deleteController)
   .controller('UserAccountUsersEnableCtrl', enableController)
   .controller('UserAccountUsersUpdateCtrl', updateController)
-  .controller('UserAccountUsersConnectSSOAddCtrl', connectSSOAddController)
-  .controller('UserAccountUsersConnectSSODeleteCtrl', connectSSODeleteController)
+  .controller('UserAccountUsersSSOAddCtrl', ssoAddController)
+  .controller('UserAccountUsersSSODeleteCtrl', ssoDeleteController)
   .service('UseraccountUsersService', service)
   .service('UseraccountGroupsService', groupService)
   .run(
@@ -72,12 +72,12 @@ angular
         updateTemplate,
       );
       $templateCache.put(
-        'account/user/users/connect-sso/add/user-users-connect-sso-add.html',
-        connectSSOAddTemplate,
+        'account/user/users/sso/add/user-users-sso-add.html',
+        ssoAddTemplate,
       );
       $templateCache.put(
-        'account/user/users/connect-sso/delete/user-users-connect-sso-delete.html',
-        connectSSODeleteTemplate,
+        'account/user/users/sso/delete/user-users-sso-delete.html',
+        ssoDeleteTemplate,
       );
     },
   )

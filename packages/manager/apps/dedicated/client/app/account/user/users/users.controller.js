@@ -79,18 +79,16 @@ export default class UserAccountUsersCtrl {
   }
 
   getIdentityProvider() {
-    return this.usersService
-      .getIdentityProvider()
-      .then((idp) => {
-        // this.userIds = userIds;
-        this.idp = idp;
-        console.log('-- IdP --');
-        console.log(this.idp);
-      })
-      .catch((err) => {
-        this.idp = null;
-        console.log('ERROR');
-        console.log(err);
-      });
+    return this.usersService.getIdentityProvider().then((idp) => {
+      // this.userIds = userIds;
+      this.idp = idp;
+      console.log('-- IdP --');
+      console.log(this.idp);
+    })
+    .catch((err) => {
+      this.idp = null;
+      console.log('ERROR');
+      console.log(err);
+    });
   }
 }

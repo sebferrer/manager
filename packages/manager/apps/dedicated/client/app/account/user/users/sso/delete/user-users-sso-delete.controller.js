@@ -1,6 +1,6 @@
 import get from 'lodash/get';
 
-export default class UserAccountUsersConnectSSODeleteCtrl {
+export default class UserAccountUsersSSODeleteCtrl {
   /* @ngInject */
   constructor($scope, UseraccountUsersService, Alerter, $translate) {
     this.$scope = $scope;
@@ -22,17 +22,17 @@ export default class UserAccountUsersConnectSSODeleteCtrl {
       .deleteIdentityProvider(this.user)
       .then(() => {
         this.alerter.success(
-          this.$translate.instant(
-            'user_users_connect_sso_delete_success_message',
-          ),
+          this.$translate.instant('user_users_sso_delete_success_message'),
           'userUsers',
         );
       })
       .catch((err) => {
         this.alerter.error(
-          `${this.$translate.instant(
-            'user_users_connext_sso_delete_error_message',
-          )} ${get(err, 'message', err)}`,
+          `${this.$translate.instant('user_users_connext_sso_delete_error_message')} ${get(
+            err,
+            'message',
+            err,
+          )}`,
           'userUsers',
         );
       })
