@@ -17,6 +17,7 @@ import deleteController from './delete/user-users-delete.controller';
 import enableController from './enable/user-users-enable.controller';
 import updateController from './update/user-users-update.controller';
 import ssoAddController from './sso/add/user-users-sso-add.controller';
+import ssoUpdateController from './sso/update/user-users-sso-update.controller';
 import ssoDeleteController from './sso/delete/user-users-sso-delete.controller';
 
 import addTemplate from './add/user-users-add.html';
@@ -25,6 +26,7 @@ import disableTemplate from './disable/user-users-disable.html';
 import enableTemplate from './enable/user-users-enable.html';
 import updateTemplate from './update/user-users-update.html';
 import ssoAddTemplate from './sso/add/user-users-sso-add.html';
+import ssoUpdateTemplate from './sso/update/user-users-sso-update.html';
 import ssoDeleteTemplate from './sso/delete/user-users-sso-delete.html';
 
 const moduleName = 'ovhManagerDedicatedAccountUserUsers';
@@ -46,6 +48,7 @@ angular
   .controller('UserAccountUsersEnableCtrl', enableController)
   .controller('UserAccountUsersUpdateCtrl', updateController)
   .controller('UserAccountUsersSSOAddCtrl', ssoAddController)
+  .controller('UserAccountUsersSSOUpdateCtrl', ssoUpdateController)
   .controller('UserAccountUsersSSODeleteCtrl', ssoDeleteController)
   .service('UseraccountUsersService', service)
   .service('UseraccountGroupsService', groupService)
@@ -74,6 +77,10 @@ angular
       $templateCache.put(
         'account/user/users/sso/add/user-users-sso-add.html',
         ssoAddTemplate,
+      );
+      $templateCache.put(
+        'account/user/users/sso/update/user-users-sso-update.html',
+        ssoUpdateTemplate,
       );
       $templateCache.put(
         'account/user/users/sso/delete/user-users-sso-delete.html',

@@ -20,7 +20,7 @@
         <span
             class="d-block"
             data-translate="user_users_sso_info"
-            data-translate-values="{customerCode: $ctrl.me.customerCode}"
+            data-translate-values="{nichandle: $ctrl.me.nichandle}"
         >
         </span>
     </oui-message>
@@ -91,7 +91,7 @@
                                     <button
                                         type="button"
                                         class="btn btn-link"
-                                        data-ng-click="setAction('users/update/user-users-sso-details', user)"
+                                        data-ng-click="setAction('users/sso/details/user-users-sso-details', user)"
                                         data-translate="user_users_sso_details"
                                     ></button>
                                 </li>
@@ -99,7 +99,7 @@
                                     <button
                                         type="button"
                                         class="btn btn-link"
-                                        data-ng-click="setAction('users/delete/user-users-sso-update', user)"
+                                        data-ng-click="setAction('users/sso/update/user-users-sso-update', user)"
                                         data-translate="user_users_sso_update"
                                     ></button>
                                 </li>
