@@ -19,6 +19,7 @@ import updateController from './update/user-users-update.controller';
 import ssoAddController from './sso/add/user-users-sso-add.controller';
 import ssoUpdateController from './sso/update/user-users-sso-update.controller';
 import ssoDeleteController from './sso/delete/user-users-sso-delete.controller';
+import ssoDetailsController from './sso/details/user-users-sso-details.controller';
 
 import addTemplate from './add/user-users-add.html';
 import deleteTemplate from './delete/user-users-delete.html';
@@ -28,6 +29,7 @@ import updateTemplate from './update/user-users-update.html';
 import ssoAddTemplate from './sso/add/user-users-sso-add.html';
 import ssoUpdateTemplate from './sso/update/user-users-sso-update.html';
 import ssoDeleteTemplate from './sso/delete/user-users-sso-delete.html';
+import ssoDetailsTemplate from './sso/details/user-users-sso-details.html';
 
 const moduleName = 'ovhManagerDedicatedAccountUserUsers';
 
@@ -50,6 +52,7 @@ angular
   .controller('UserAccountUsersSSOAddCtrl', ssoAddController)
   .controller('UserAccountUsersSSOUpdateCtrl', ssoUpdateController)
   .controller('UserAccountUsersSSODeleteCtrl', ssoDeleteController)
+  .controller('UserAccountUsersSSODetailsCtrl', ssoDetailsController)
   .service('UseraccountUsersService', service)
   .service('UseraccountGroupsService', groupService)
   .run(
@@ -85,6 +88,10 @@ angular
       $templateCache.put(
         'account/user/users/sso/delete/user-users-sso-delete.html',
         ssoDeleteTemplate,
+      );
+      $templateCache.put(
+        'account/user/users/sso/details/user-users-sso-details.html',
+        ssoDetailsTemplate,
       );
     },
   )

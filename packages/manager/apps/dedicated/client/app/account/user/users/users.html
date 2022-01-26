@@ -1,4 +1,4 @@
-<div>
+<div data-ui-view>
     <div data-ovh-alert="userUsers"></div>
 
     <oui-message data-ng-if="$ctrl.idp == null" data-type="info">
@@ -63,7 +63,13 @@
             </thead>
             <tbody>
                 <tr>
-                    <td data-ng-bind="$ctrl.idp.ssoServiceUrl">
+                    <td>
+                        <a
+                            data-ng-bind="$ctrl.idp.ssoServiceUrl"
+                            data-ng-href="{{ '#/useraccount/users/sso' }}"
+                            
+                            >
+                        </a>
                     </td>
                     <td data-ng-bind="$ctrl.idp.creation | date">
                     </td>
@@ -87,14 +93,6 @@
                                 data-uib-dropdown-menu
                                 class="dropdown-menu dropdown-menu-right"
                             >
-                                <li>
-                                    <button
-                                        type="button"
-                                        class="btn btn-link"
-                                        data-ng-click="setAction('users/sso/details/user-users-sso-details', user)"
-                                        data-translate="user_users_sso_details"
-                                    ></button>
-                                </li>
                                 <li>
                                     <button
                                         type="button"
